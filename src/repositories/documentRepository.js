@@ -9,7 +9,11 @@ async function saveDocument(document) {
             language
         )
         VALUES ($1, $2, $3, $4)
-            RETURNING id;
+            ON CONFLICT (source_id, version)
+        DO UPDATE SET
+            source_hash = EXCLUDED.source_hash,
+                           language = EXCLUDED.language
+                           RETURNING id;
     `;
 
     const values = [
