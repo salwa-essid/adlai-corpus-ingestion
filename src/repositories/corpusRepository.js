@@ -29,9 +29,10 @@ async function saveSource(source) {
     return result.rows[0];
 }
 
-async function saveArticles(sourceName, articles) {
-    console.log(`Preparing ${articles.length} articles for ${sourceName}...`);
-    // سنضيفها في المرحلة القادمة
+async function saveArticles(documentId, articles) {
+    console.log(`Preparing ${articles.length} articles for document ${documentId}...`);
+
+    // PostgreSQL INSERT will be implemented in the next step
 }
 
 module.exports = {
