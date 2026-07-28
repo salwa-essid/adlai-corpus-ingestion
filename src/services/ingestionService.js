@@ -1,33 +1,24 @@
-const { readManifest } = require("./manifestService");
-const { readArticles } = require("./articleReaderService");
-const { validateArticles } = require("./validationService");
-const { saveSource } = require("../repositories/sourceRepository");
-const { saveDocument } = require("../repositories/documentRepository");
-const { saveArticles } = require("../repositories/articleRepository");
-const { testConnection } = require("./databaseService");
-const logger = require("../utils/logger");
+const { readManifest } = require("./manifestService")
+const { readArticles } = require("./articleReaderService")
+const { validateArticles } = require("./validationService")
+const { saveSource } = require("../repositories/sourceRepository")
+const { saveDocument } = require("../repositories/documentRepository")
+const { saveArticles } = require("../repositories/articleRepository")
+const { testConnection } = require("./databaseService")
+const logger = require("../utils/logger")
 
 async function runPipeline() {
-    logger.info("ADLAI Corpus Ingestion Pipeline Started...");
-
+    logger.info("ADLAI Corpus Ingestion Pipeline Started...")
     await testConnection();
-
-    const manifest = await readManifest();
-
-    let totalArticles = 0;
-
+    const manifest = await readManifest()
+    let totalArticles = 0
     for (const source of manifest.sources) {
-
-        logger.info(`Reading ${source.name}...`);
-
-        const articles = await readArticles(source.name);
-
-        validateArticles(source.name, articles);
-
+        logger.info(`Reading ${source.name}...`)
+        const articles = await readArticles(source.name)
+        validateArticles(source.name, articles)
         // Save Source
         const savedSource = await saveSource(source);
-        console.log(`Source saved: ${savedSource.code}`);
-
+        console.log(`Source saved: ${savedSource.code}`)
         // Save Document
         const documentId = await saveDocument({
             sourceId: savedSource.id,
@@ -35,21 +26,15 @@ async function runPipeline() {
             sourceHash: source.name,
             language: source.language || "en",
         });
-
-        console.log(`Document created: ${documentId}`);
-
+        console.log(`Document created: ${documentId}`)
         // Save Articles (next step)
-        await saveArticles(documentId, articles);
-
-        totalArticles += articles.length;
-
-        logger.success(`${source.name}: ${articles.length} articles processed`);
-
-        console.log();
+        await saveArticles(documentId, articles)
+        totalArticles += articles.length
+        logger.success(`${source.name}: ${articles.length} articles processed`)
+        console.log()
     }
-
-    logger.info(`Total Sources : ${manifest.sources.length}`);
-    logger.info(`Total Articles: ${totalArticles}`);
+    logger.info(`Total Sources : ${manifest.sources.length}`)
+    logger.info(`Total Articles: ${totalArticles}`)
 }
 
 module.exports = {

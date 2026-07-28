@@ -13,7 +13,7 @@ async function saveSource(source) {
         ON CONFLICT (code)
         DO UPDATE SET updated_at = NOW()
         RETURNING *;
-    `;
+    `
 
     const values = [
         source.name.toUpperCase(),
@@ -21,10 +21,8 @@ async function saveSource(source) {
         "Unknown",
         "SA",
         source.language || "unknown"
-    ];
-
+    ]
     const { rows } = await pool.query(query, values);
-
     return rows[0];
 }
 
