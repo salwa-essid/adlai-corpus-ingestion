@@ -1,7 +1,6 @@
 const pool = require("../config/database")
 
 async function saveChunk(client, chunk) {
-
     const query = `
         INSERT INTO article_chunks (
             article_id,
@@ -13,7 +12,6 @@ async function saveChunk(client, chunk) {
         )
         VALUES ($1,$2,$3,$4,$5,$6);
     `
-
     await client.query(query, [
         chunk.articleId,
         chunk.chunkIndex,

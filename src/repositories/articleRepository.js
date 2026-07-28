@@ -73,15 +73,10 @@ async function saveArticles(documentId, articles) {
         await client.query("COMMIT")
         console.log(`${articles.length} articles saved.`)
     } catch (error) {
-
-        await client.query("ROLLBACK");
-
-        throw error;
-
+        await client.query("ROLLBACK")
+        throw error
     } finally {
-
         client.release();
-
     }
 }
 

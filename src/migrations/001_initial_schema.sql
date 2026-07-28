@@ -121,31 +121,31 @@ CREATE INDEX IF NOT EXISTS idx_documents_hash
 CREATE TABLE IF NOT EXISTS articles (
 
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-
     document_id UUID NOT NULL REFERENCES documents(id),
-
     article_number TEXT,
-
     parent_article_id UUID REFERENCES articles(id),
-
     ordering INTEGER NOT NULL,
-
     title_ar TEXT,
-
     title_en TEXT,
-
     text_ar TEXT NOT NULL,
-
     text_en TEXT,
-
     text_ar_normalized TEXT,
-
+    text_ar_tsv tsvector GENERATED ALWAYS AS (
+                                                 to_tsvector('simple', COALESCE(text_ar_normalized, ''))
+    ) STORED,
+    text_en_tsv tsvector GENERATED ALWAYS AS (
+                                                 to_tsvector('english', COALESCE(text_en, ''))
+    ) STORED,
     created_at TIMESTAMPTZ DEFAULT NOW()
-    );
-
+    )
 CREATE INDEX IF NOT EXISTS idx_articles_document
     ON articles(document_id, ordering);
-
+CREATE INDEX IF NOT EXISTS idx_articles_ar_tsv
+    ON articles
+    USING GIN(text_ar_tsv);
+CREATE INDEX IF NOT EXISTS idx_articles_en_tsv
+    ON articles
+    USING GIN(text_en_tsv);
 -- =====================================
 -- ARTICLE CHUNKS
 -- =====================================
