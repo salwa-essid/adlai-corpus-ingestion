@@ -31,37 +31,57 @@ async function saveSource(source) {
 
 async function saveArticles(documentId, articles) {
 
-    let ordering = 1;
+    const client = await pool.connect();
 
-    for (const article of articles) {
+    try {
 
-        const query = `
-            INSERT INTO articles (
-                document_id,
-                article_number,
-                ordering,
-                text_ar,
-                text_en,
-                text_ar_normalized
-            )
-            VALUES ($1, $2, $3, $4, $5, $6);
-        `;
+        await client.query("BEGIN");
 
-        const isArabic = article.language === "ar";
+        let ordering = 1;
 
-        const values = [
-            documentId,
-            article.article_number?.toString() || null,
-            ordering++,
-            isArabic ? article.text : "",
-            isArabic ? "" : article.text,
-            isArabic ? article.text : ""
-        ];
+        for (const article of articles) {
 
-        await pool.query(query, values);
+            const query = `
+                INSERT INTO articles (
+                    document_id,
+                    article_number,
+                    ordering,
+                    text_ar,
+                    text_en,
+                    text_ar_normalized
+                )
+                VALUES ($1, $2, $3, $4, $5, $6);
+            `;
+
+            const isArabic = article.language === "ar";
+
+            const values = [
+                documentId,
+                article.article_number?.toString() || null,
+                ordering++,
+                isArabic ? article.text : "",
+                isArabic ? article.text : "",
+                isArabic ? article.text : ""
+            ];
+
+            await client.query(query, values);
+        }
+
+        await client.query("COMMIT");
+
+        console.log(`${articles.length} articles saved.`);
+
+    } catch (error) {
+
+        await client.query("ROLLBACK");
+
+        throw error;
+
+    } finally {
+
+        client.release();
+
     }
-
-    console.log(`${articles.length} articles saved.`);
 }
 
 module.exports = {

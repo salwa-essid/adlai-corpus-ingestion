@@ -14,7 +14,7 @@ async function saveDocument(document) {
             source_hash = EXCLUDED.source_hash,
                            language = EXCLUDED.language
                            RETURNING id;
-    `;
+    `
 
     const values = [
         document.sourceId,
