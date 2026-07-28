@@ -1,13 +1,9 @@
 const { readManifest } = require("./manifestService");
 const { readArticles } = require("./articleReaderService");
 const { validateArticles } = require("./validationService");
-
-const {
-    saveSource,
-    saveArticles,
-} = require("../repositories/corpusRepository");
-
+const { saveSource } = require("../repositories/sourceRepository");
 const { saveDocument } = require("../repositories/documentRepository");
+const { saveArticles } = require("../repositories/articleRepository");
 const { testConnection } = require("./databaseService");
 const logger = require("../utils/logger");
 
