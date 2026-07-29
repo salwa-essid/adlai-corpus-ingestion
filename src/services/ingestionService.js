@@ -14,6 +14,9 @@ const {
     startIngestionRun,
     completeIngestionRun
 } = require("../repositories/ingestionRunRepository")
+const { generateContentHash } = require("./hashService");
+
+
 async function runPipeline() {
     logger.info("ADLAI Corpus Ingestion Pipeline Started...")
     await testConnection()
@@ -22,20 +25,21 @@ async function runPipeline() {
     for (const source of manifest.sources) {
         logger.info(`Reading ${source.name}...`)
         const articles = await readArticles(source.name)
-        validateArticles(source.name, articles)
+        const sourceHash = generateContentHash(articles)
+        validateArticles(source.name, articles);
         // Save Source
-        const savedSource = await saveSource(source)
+        const savedSource = await saveSource(source);
         console.log(`Source saved: ${savedSource.code}`)
         // Start Ingestion Run
         const runId = await startIngestionRun(
             savedSource.id,
             source.url || null
         )
-        console.log(`Ingestion Run: ${runId}`)
+        console.log(`Ingestion Run: ${runId}`);
         // Check if document already exists
         const existingDocument = await findDocumentByHash(
             savedSource.id,
-            source.name
+            sourceHash
         )
         if (existingDocument) {
             logger.info(`No changes detected for ${source.name}. Skipping...`)
@@ -44,19 +48,19 @@ async function runPipeline() {
                 articles: 0,
                 chunks: 0
             })
-            console.log()
-            continue
+            console.log();
+            continue;
         }
         // Save Document
         const documentId = await saveDocument({
             sourceId: savedSource.id,
             version: "v1",
-            sourceHash: source.name,
+            sourceHash,
             language: source.language || "en",
         })
         console.log(`Document created: ${documentId}`)
         // Save Articles + Chunks
-        await saveArticles(documentId, articles)
+        await saveArticles(documentId, articles);
         // Complete Ingestion Run
         await completeIngestionRun(runId, {
             documents: 1,
@@ -70,10 +74,9 @@ async function runPipeline() {
     logger.info(`Total Sources : ${manifest.sources.length}`)
     const { rows } = await pool.query(
         "SELECT COUNT(*)::int AS total FROM articles"
-    );
-
-    logger.info(`Total Articles in database: ${rows[0].total}`);
-    logger.info(`Articles processed this run: ${totalArticles}`);
+    )
+    logger.info(`Total Articles in database: ${rows[0].total}`)
+    logger.info(`Articles processed this run: ${totalArticles}`)
 }
 
 module.exports = {
