@@ -107,7 +107,23 @@ async function saveArticles(documentId, articles) {
 
     }
 }
+async function findArticleByNumber(documentId, articleNumber) {
+    const query = `
+        SELECT id
+        FROM articles
+        WHERE document_id = $1
+          AND article_number = $2
+        LIMIT 1;
+    `;
+
+    const { rows } = await pool.query(query, [
+        documentId,
+        articleNumber
+    ]);
+
+    return rows[0] || null;
+}
 
 module.exports = {
-    saveArticles
+    saveArticles,findArticleByNumber
 };

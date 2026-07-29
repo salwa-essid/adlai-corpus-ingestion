@@ -1,4 +1,4 @@
-const pool = require("../config/database")
+const pool = require("../config/database");
 
 async function findDocumentByHash(sourceId, sourceHash) {
     const query = `
@@ -7,9 +7,31 @@ async function findDocumentByHash(sourceId, sourceHash) {
         WHERE source_id = $1
           AND source_hash = $2
         LIMIT 1;
-    `
+    `;
 
-    const { rows } = await pool.query(query, [sourceId, sourceHash]);
+    const { rows } = await pool.query(query, [
+        sourceId,
+        sourceHash
+    ]);
+
+    return rows[0] || null;
+}
+
+async function findLatestDocument(sourceId) {
+    const query = `
+        SELECT
+            id,
+            version,
+            source_hash,
+            created_at
+        FROM documents
+        WHERE source_id = $1
+        ORDER BY created_at DESC
+        LIMIT 1;
+    `;
+
+    const { rows } = await pool.query(query, [sourceId]);
+
     return rows[0] || null;
 }
 
@@ -24,17 +46,9 @@ async function saveDocument(document) {
             metadata
         )
         VALUES ($1, $2, $3, $4, $5, $6)
-
-        ON CONFLICT (source_id, version)
-
-        DO UPDATE SET
-            source_hash = EXCLUDED.source_hash,
-            source_url  = EXCLUDED.source_url,
-            language    = EXCLUDED.language,
-            metadata    = EXCLUDED.metadata
-
         RETURNING id;
-    `
+    `;
+
     const values = [
         document.sourceId,
         document.version,
@@ -42,12 +56,15 @@ async function saveDocument(document) {
         document.sourceUrl,
         document.language,
         JSON.stringify(document.metadata)
-    ]
-    const { rows } = await pool.query(query, values)
-    return rows[0].id
+    ];
+
+    const { rows } = await pool.query(query, values);
+
+    return rows[0].id;
 }
 
 module.exports = {
     findDocumentByHash,
+    findLatestDocument,
     saveDocument
-}
+};
