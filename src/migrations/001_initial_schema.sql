@@ -15,6 +15,13 @@ CREATE EXTENSION IF NOT EXISTS unaccent;
 CREATE TABLE IF NOT EXISTS sources (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
+    -- slug = manifest.json source name (e.g. "labor"), never changes.
+    -- Real identity key for ON CONFLICT in sourceRepository.js.
+    slug TEXT UNIQUE NOT NULL,
+
+    -- code = human-facing legal code (e.g. "LABOR_LAW"), can change
+    -- (renames/typo fixes) without breaking identity, since it's not
+    -- the conflict key.
     code TEXT UNIQUE NOT NULL,
 
     type TEXT NOT NULL CHECK (
@@ -173,35 +180,33 @@ CREATE INDEX IF NOT EXISTS idx_articles_ar_trgm
 -- ==========================================
 
 CREATE TABLE IF NOT EXISTS article_chunks (
-
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-
     article_id UUID NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
-
     chunk_index INTEGER NOT NULL,
-
     chunk_text TEXT NOT NULL,
-
     chunk_text_normalized TEXT,
-
     token_count INTEGER DEFAULT 0,
-
     embedding_model TEXT NOT NULL,
-
     embedding_ar VECTOR(1024),
-
     embedding_en VECTOR(1024),
-
     created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
 CREATE INDEX IF NOT EXISTS idx_chunks_article
     ON article_chunks(article_id);
-
 CREATE INDEX IF NOT EXISTS idx_chunks_embedding_ar
     ON article_chunks
     USING hnsw (embedding_ar vector_cosine_ops);
-
 CREATE INDEX IF NOT EXISTS idx_chunks_embedding_en
     ON article_chunks
     USING hnsw (embedding_en vector_cosine_ops);
+
+
+
+
+
+
+
+
+
+

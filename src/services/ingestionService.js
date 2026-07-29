@@ -56,7 +56,13 @@ async function runPipeline() {
             sourceId: savedSource.id,
             version: "v1",
             sourceHash,
+            sourceUrl: source.source_url,
             language: source.language || "en",
+            metadata: {
+                status: source.status,
+                article_count: source.article_count,
+                fetched_at: source.fetched_at
+            }
         })
         console.log(`Document created: ${documentId}`)
         // Save Articles + Chunks

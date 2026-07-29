@@ -1,24 +1,61 @@
 const pool = require("../config/database")
 
+// manifest.json doesn't carry type/issuer, so we map it here by hand.
+// type must match sources.type CHECK constraint: statute | regulation | bulletin | decree | ruling | guidance
+//
+// `slug` = source.name from manifest.json — stable, never changes.
+// `code` = human-facing legal code — can change (renames/typo fixes)
+// without breaking identity, because ON CONFLICT below keys on slug.
+const SOURCE_METADATA = {
+    zatca_einvoicing: { slug: "zatca_einvoicing", code: "ZATCA_EINVOICING", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
+    zatca_implementation_resolution: { slug: "zatca_implementation_resolution", code: "ZATCA_IMPLEMENTATION_RESOLUTION", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
+    zatca_guidelines: { slug: "zatca_guidelines", code: "ZATCA_GUIDELINES", type: "guidance", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
+    zatca_vat_agreement: { slug: "zatca_vat_agreement", code: "ZATCA_VAT_AGREEMENT", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
+    labor: { slug: "labor", code: "LABOR_LAW", type: "statute", issuer: "Ministry of Human Resources and Social Development (HRSD)" },
+    companies: { slug: "companies", code: "COMPANIES_LAW", type: "statute", issuer: "Ministry of Commerce" },
+    pdpl: { slug: "pdpl", code: "PDPL", type: "statute", issuer: "Saudi Data & AI Authority (SDAIA)" },
+    sama: { slug: "sama", code: "SAMA_CIRCULAR", type: "regulation", issuer: "Saudi Central Bank (SAMA)" },
+    cma: { slug: "cma", code: "CMA_LAW", type: "statute", issuer: "Capital Market Authority (CMA)" },
+    nca: { slug: "nca", code: "NCA_ECC", type: "regulation", issuer: "National Cybersecurity Authority (NCA)" },
+    misa: { slug: "misa", code: "MISA_INVESTMENT_LAW", type: "statute", issuer: "Ministry of Investment (MISA)" }
+}
+
+function getSourceMetadata(sourceName) {
+    return SOURCE_METADATA[sourceName] || {
+        slug: sourceName,
+        code: sourceName.toUpperCase(),
+        type: "regulation",
+        issuer: "Unknown"
+    }
+}
+
 async function saveSource(source) {
+    const meta = getSourceMetadata(source.name)
+
     const query = `
         INSERT INTO sources (
+            slug,
             code,
             type,
             issuer,
             jurisdiction,
             language_primary
         )
-        VALUES ($1,$2,$3,$4,$5)
-        ON CONFLICT (code)
-        DO UPDATE SET updated_at = NOW()
+        VALUES ($1,$2,$3,$4,$5,$6)
+        ON CONFLICT (slug)
+        DO UPDATE SET
+            code = EXCLUDED.code,
+            type = EXCLUDED.type,
+            issuer = EXCLUDED.issuer,
+            updated_at = NOW()
         RETURNING *;
     `
 
     const values = [
-        source.name.toUpperCase(),
-        "regulation",
-        "Unknown",
+        meta.slug,
+        meta.code,
+        meta.type,
+        meta.issuer,
         "SA",
         source.language || "unknown"
     ]

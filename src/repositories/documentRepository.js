@@ -8,29 +8,40 @@ async function findDocumentByHash(sourceId, sourceHash) {
           AND source_hash = $2
         LIMIT 1;
     `
+
     const { rows } = await pool.query(query, [sourceId, sourceHash]);
     return rows[0] || null;
 }
+
 async function saveDocument(document) {
     const query = `
         INSERT INTO documents (
             source_id,
             version,
             source_hash,
-            language
+            source_url,
+            language,
+            metadata
         )
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4, $5, $6)
+
         ON CONFLICT (source_id, version)
+
         DO UPDATE SET
             source_hash = EXCLUDED.source_hash,
-            language = EXCLUDED.language
+            source_url  = EXCLUDED.source_url,
+            language    = EXCLUDED.language,
+            metadata    = EXCLUDED.metadata
+
         RETURNING id;
     `
     const values = [
         document.sourceId,
         document.version,
         document.sourceHash,
-        document.language
+        document.sourceUrl,
+        document.language,
+        JSON.stringify(document.metadata)
     ]
     const { rows } = await pool.query(query, values)
     return rows[0].id
