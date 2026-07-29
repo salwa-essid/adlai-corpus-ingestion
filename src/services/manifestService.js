@@ -6,7 +6,6 @@ async function readManifest() {
     const data = await fs.readFile(manifestPath, "utf-8")
     return JSON.parse(data)
 }
-
 module.exports = {
     readManifest
 };

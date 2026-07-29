@@ -1,14 +1,16 @@
--- ===========================
--- ADLAI Initial Schema
--- ===========================
+-- ==========================================
+-- ADLAI Initial Schema v1
+-- PostgreSQL + pgvector
+-- ==========================================
 
+CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
--- =====================================
+-- ==========================================
 -- SOURCES
--- =====================================
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS sources (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -37,9 +39,9 @@ CREATE TABLE IF NOT EXISTS sources (
     updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
--- =====================================
+-- ==========================================
 -- INGESTION RUNS
--- =====================================
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS ingestion_runs (
 
@@ -73,9 +75,9 @@ CREATE TABLE IF NOT EXISTS ingestion_runs (
     error_log JSONB
     );
 
--- =====================================
+-- ==========================================
 -- DOCUMENTS
--- =====================================
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS documents (
 
@@ -114,41 +116,61 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_documents_source_version
 CREATE INDEX IF NOT EXISTS idx_documents_hash
     ON documents(source_hash);
 
--- =====================================
+-- ==========================================
 -- ARTICLES
--- =====================================
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS articles (
 
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+
     document_id UUID NOT NULL REFERENCES documents(id),
+
     article_number TEXT,
+
     parent_article_id UUID REFERENCES articles(id),
+
     ordering INTEGER NOT NULL,
+
     title_ar TEXT,
+
     title_en TEXT,
+
     text_ar TEXT NOT NULL,
+
     text_en TEXT,
+
     text_ar_normalized TEXT,
-    text_ar_tsv tsvector GENERATED ALWAYS AS (
-                                                 to_tsvector('simple', COALESCE(text_ar_normalized, ''))
+
+    text_ar_tsv TSVECTOR GENERATED ALWAYS AS (
+                                                 to_tsvector('simple', COALESCE(text_ar_normalized,''))
     ) STORED,
-    text_en_tsv tsvector GENERATED ALWAYS AS (
-                                                 to_tsvector('english', COALESCE(text_en, ''))
+
+    text_en_tsv TSVECTOR GENERATED ALWAYS AS (
+                                                 to_tsvector('english', COALESCE(text_en,''))
     ) STORED,
+
     created_at TIMESTAMPTZ DEFAULT NOW()
-    )
+    );
+
 CREATE INDEX IF NOT EXISTS idx_articles_document
     ON articles(document_id, ordering);
+
 CREATE INDEX IF NOT EXISTS idx_articles_ar_tsv
     ON articles
     USING GIN(text_ar_tsv);
+
 CREATE INDEX IF NOT EXISTS idx_articles_en_tsv
     ON articles
     USING GIN(text_en_tsv);
--- =====================================
+
+CREATE INDEX IF NOT EXISTS idx_articles_ar_trgm
+    ON articles
+    USING GIN(text_ar_normalized gin_trgm_ops);
+
+-- ==========================================
 -- ARTICLE CHUNKS
--- =====================================
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS article_chunks (
 
@@ -164,10 +186,22 @@ CREATE TABLE IF NOT EXISTS article_chunks (
 
     token_count INTEGER DEFAULT 0,
 
-    embedding_model TEXT,
+    embedding_model TEXT NOT NULL,
+
+    embedding_ar VECTOR(1024),
+
+    embedding_en VECTOR(1024),
 
     created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
 CREATE INDEX IF NOT EXISTS idx_chunks_article
     ON article_chunks(article_id);
+
+CREATE INDEX IF NOT EXISTS idx_chunks_embedding_ar
+    ON article_chunks
+    USING hnsw (embedding_ar vector_cosine_ops);
+
+CREATE INDEX IF NOT EXISTS idx_chunks_embedding_en
+    ON article_chunks
+    USING hnsw (embedding_en vector_cosine_ops);

@@ -1,6 +1,6 @@
-const { readManifest } = require("./manifestService");
-const { readArticles } = require("./articleReaderService");
-const { validateArticles } = require("./validationService");
+const { readManifest } = require("./manifestService")
+const { readArticles } = require("./articleReaderService")
+const { validateArticles } = require("./validationService")
 const { saveSource } = require("../repositories/sourceRepository")
 const { saveDocument } = require("../repositories/documentRepository")
 const { saveArticles } = require("../repositories/articleRepository")
@@ -34,8 +34,8 @@ async function runPipeline() {
             version: "v1",
             sourceHash: source.name,
             language: source.language || "en",
-        });
-        console.log(`Document created: ${documentId}`);
+        })
+        console.log(`Document created: ${documentId}`)
         // Save Articles + Chunks
         await saveArticles(documentId, articles);
         // Complete Ingestion Run
@@ -45,7 +45,7 @@ async function runPipeline() {
             chunks: articles.length
         })
         totalArticles += articles.length
-        logger.success(`${source.name}: ${articles.length} articles processed`)
+        logger.success(`${source.name}:${articles.length} articles processed`)
         console.log()
     }
     logger.info(`Total Sources : ${manifest.sources.length}`)

@@ -6,7 +6,7 @@ async function readArticles(sourceName) {
         process.cwd(),
         "output",
         `${sourceName}.json`
-    );
+    )
     const data = await fs.readFile(filePath, "utf8")
     return JSON.parse(data)
 }

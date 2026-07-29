@@ -11,7 +11,6 @@ function chunkArticle(article) {
         }
     ];
 }
-
 module.exports = {
     chunkArticle
 };
