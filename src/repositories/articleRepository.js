@@ -3,7 +3,9 @@ const { saveChunk } = require("./chunkRepository");
 const { chunkArticle } = require("../services/chunkService");
 const { normalizeArabic } = require("../services/normalizationService");
 const { generateEmbedding } = require("../services/embeddingService");
-
+const {
+    extractCrossReferences
+} = require("../services/crossReferenceExtractor");
 async function saveArticles(documentId, articles) {
 
     const client = await pool.connect();
@@ -69,6 +71,13 @@ async function saveArticles(documentId, articles) {
             const result = await client.query(query, values);
 
             const articleId = result.rows[0].id;
+
+// Extract internal references
+            await extractCrossReferences(
+                documentId,
+                articleId,
+                article.text
+            );
 
             const chunks = chunkArticle(article);
 
