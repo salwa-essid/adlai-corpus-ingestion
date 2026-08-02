@@ -3,13 +3,9 @@ const { saveChunk } = require("./chunkRepository");
 const { chunkArticle } = require("../services/chunkService");
 const { normalizeArabic } = require("../services/normalizationService");
 const { generateEmbedding } = require("../services/embeddingService");
-const {
-    extractCrossReferences
-} = require("../services/crossReferenceExtractor");
+const {extractCrossReferences} = require("../services/crossReferenceExtractor");
 async function saveArticles(documentId, articles) {
-
     const client = await pool.connect();
-
     try {
 
         await client.query("BEGIN");
@@ -83,12 +79,10 @@ async function saveArticles(documentId, articles) {
             const chunks = chunkArticle(article);
 
             for (const chunk of chunks) {
-
                 // Generate embedding
                 const embedding = await generateEmbedding(
                     chunk.chunkText
                 );
-
                 await saveChunk(client, {
                     articleId,
                     chunkIndex: chunk.chunkIndex,
@@ -134,7 +128,6 @@ async function findArticleByNumber(documentId, articleNumber) {
     return rows[0] || null;
 }
 async function getArticlesByDocumentId(documentId) {
-
     const query = `
         SELECT
             article_number,
@@ -143,9 +136,7 @@ async function getArticlesByDocumentId(documentId) {
         WHERE document_id = $1
         ORDER BY ordering;
     `;
-
     const { rows } = await pool.query(query, [documentId]);
-
     return rows;
 }
 module.exports = {

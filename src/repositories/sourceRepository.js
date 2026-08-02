@@ -31,7 +31,6 @@ function getSourceMetadata(sourceName) {
 
 async function saveSource(source) {
     const meta = getSourceMetadata(source.name)
-
     const query = `
         INSERT INTO sources (
             slug,
@@ -50,7 +49,6 @@ async function saveSource(source) {
             updated_at = NOW()
         RETURNING *;
     `
-
     const values = [
         meta.slug,
         meta.code,

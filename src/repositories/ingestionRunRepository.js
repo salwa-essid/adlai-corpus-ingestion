@@ -28,7 +28,6 @@ async function completeIngestionRun(runId, stats) {
             chunks_created = $4
         WHERE id = $1;
     `;
-
     await pool.query(query, [
         runId,
         stats.documents,
@@ -36,7 +35,6 @@ async function completeIngestionRun(runId, stats) {
         stats.chunks
     ]);
 }
-
 module.exports = {
     startIngestionRun,
     completeIngestionRun

@@ -3,32 +3,28 @@ const pool = require("../config/database");
 const { readManifest } = require("./manifestService");
 const { readArticles } = require("./articleReaderService");
 const { validateArticles } = require("./validationService");
-
 const { saveSource } = require("../repositories/sourceRepository");
-
 const {
     saveDocument,
-    findDocumentByHash
+    findDocumentByHash,
+    findLatestDocument,
+    getNextVersion,
+    markDocumentSuperseded
 } = require("../repositories/documentRepository");
-
-const { saveArticles } = require("../repositories/articleRepository");
-
 const {
-    saveSnapshot
-} = require("../repositories/sourceSnapshotRepository");
-
+    saveArticles,
+    getArticlesByDocumentId
+} = require("../repositories/articleRepository");
+const {saveSnapshot} = require("../repositories/sourceSnapshotRepository");
 const { testConnection } = require("./databaseService");
-
 const logger = require("../utils/logger");
-
 const {
     startIngestionRun,
     completeIngestionRun
 } = require("../repositories/ingestionRunRepository");
-
-const {
-    generateContentHash
-} = require("./hashService");
+const {generateContentHash} = require("./hashService");
+const {buildDocumentDiff} = require("./documentDiffService");
+const {saveDocumentDiff} = require("../repositories/documentDiffRepository");
 
 async function runPipeline(options = {}) {
     logger.info("ADLAI Corpus Ingestion Pipeline Started...");
@@ -47,23 +43,23 @@ async function runPipeline(options = {}) {
         const articles = await readArticles(source.name);
         const sourceHash = generateContentHash(articles);
         validateArticles(source.name, articles);
-// DRY RUN
+        // DRY RUN
         if (options.dryRun) {
             logger.info(`[DRY RUN] ${source.name}: ${articles.length} articles validated.`);
             totalArticles += articles.length;
             console.log();
             continue;
         }
-// Save Source
+        // Save Source
         const savedSource = await saveSource(source);
         console.log(`Source saved: ${savedSource.code}`);
-        // Start Ingestion Run
+        // Start ingestion run
         const runId = await startIngestionRun(
             savedSource.id,
             source.source_url || null
         );
         console.log(`Ingestion Run: ${runId}`);
-        // Save Snapshot
+        // Save snapshot
         await saveSnapshot({
             sourceId: savedSource.id,
             fetchedAt: source.fetched_at
@@ -75,15 +71,15 @@ async function runPipeline(options = {}) {
                 ? "application/pdf"
                 : "text/html"
         });
-        // Change Detection
+
+        // Change detection
         const existingDocument = await findDocumentByHash(
             savedSource.id,
             sourceHash
         );
+
         if (existingDocument) {
-            logger.info(
-                `No changes detected for ${source.name}. Skipping...`
-            );
+            logger.info(`No changes detected for ${source.name}. Skipping...`);
             await completeIngestionRun(runId, {
                 documents: 0,
                 articles: 0,
@@ -92,10 +88,16 @@ async function runPipeline(options = {}) {
             console.log();
             continue;
         }
-        // Save Document
+        // Previous version
+        const latestDocument =
+            await findLatestDocument(savedSource.id);
+        // Next version
+        const version =
+            await getNextVersion(savedSource.id);
+        // Save new document
         const documentId = await saveDocument({
             sourceId: savedSource.id,
-            version: "v1",
+            version,
             sourceHash,
             sourceUrl: source.source_url,
             language: source.language || "en",
@@ -105,28 +107,60 @@ async function runPipeline(options = {}) {
                 fetched_at: source.fetched_at
             }
         });
+
         console.log(`Document created: ${documentId}`);
+        // Mark previous version as superseded
+        if (latestDocument) {
+            await markDocumentSuperseded(
+                latestDocument.id,
+                documentId
+            );
+        }
+
         // Save Articles + Chunks
         await saveArticles(documentId, articles);
-        // Complete Ingestion Run
+        // Build document diff
+        if (latestDocument) {
+            const oldArticles =
+                await getArticlesByDocumentId(
+                    latestDocument.id
+                );
+            console.log("OLD ARTICLE:");
+            console.log(oldArticles[0]);
+            console.log("NEW ARTICLE:");
+            console.log(articles[0]);
+            const diffSummary =
+                buildDocumentDiff(
+                    oldArticles,
+                    articles
+                );
+            await saveDocumentDiff({
+                sourceId: savedSource.id,
+                oldDocumentId: latestDocument.id,
+                newDocumentId: documentId,
+                diffSummary,
+                llmImpactAnalysis: null
+            });
+
+        }
+        // Complete ingestion run
         await completeIngestionRun(runId, {
             documents: 1,
             articles: articles.length,
             chunks: articles.length
         });
         totalArticles += articles.length;
-        logger.success(
-            `${source.name}: ${articles.length} articles processed`
-        );
+        logger.success(`${source.name}: ${articles.length} articles processed`);
         console.log();
     }
+
     logger.info(`Total Sources : ${sources.length}`);
-    const { rows } = await pool.query(
-        "SELECT COUNT(*)::int AS total FROM articles"
-    );
+    const { rows } = await pool.query("SELECT COUNT(*)::int AS total FROM articles");
     logger.info(`Total Articles in database: ${rows[0].total}`);
     logger.info(`Articles processed this run: ${totalArticles}`);
+
 }
+
 module.exports = {
     runPipeline
 };

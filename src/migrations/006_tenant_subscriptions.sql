@@ -5,11 +5,9 @@
 CREATE TABLE IF NOT EXISTS tenant_subscriptions (
 
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-
     tenant_id UUID NOT NULL
     REFERENCES tenants(id)
     ON DELETE CASCADE,
-
     source_id UUID NOT NULL
     REFERENCES sources(id)
     ON DELETE CASCADE,
