@@ -10,7 +10,7 @@ async function saveDocumentDiff(diff) {
             llm_impact_analysis
         )
         VALUES ($1, $2, $3, $4, $5)
-        RETURNING id;
+            RETURNING id;
     `;
 
     const values = [
@@ -39,6 +39,7 @@ async function getPendingDiffs() {
     const query = `
         SELECT
             id,
+            source_id,
             diff_summary
         FROM document_diffs
         WHERE llm_impact_analysis IS NULL
