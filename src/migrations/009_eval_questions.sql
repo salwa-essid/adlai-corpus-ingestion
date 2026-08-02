@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS eval_questions (
     attorney_rubric TEXT,
     graded_by UUID,
     created_at TIMESTAMPTZ DEFAULT NOW()
-    )
+    );
 
 CREATE INDEX IF NOT EXISTS idx_eval_questions_domain
     ON eval_questions(domain);

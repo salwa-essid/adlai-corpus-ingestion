@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS eval_runs (
     citation_recall FLOAT,
     citation_precision FLOAT,
     results_summary JSONB
-    )
+    );
 
 CREATE INDEX IF NOT EXISTS idx_eval_runs_version
     ON eval_runs(eval_version);

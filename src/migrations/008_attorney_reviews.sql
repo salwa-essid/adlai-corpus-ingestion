@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS attorney_reviews (
     edited_response TEXT,
     sla_deadline TIMESTAMPTZ,
     reviewed_at TIMESTAMPTZ
-    )
+    );
 
 CREATE INDEX IF NOT EXISTS idx_attorney_reviews_tenant
     ON attorney_reviews(tenant_id);

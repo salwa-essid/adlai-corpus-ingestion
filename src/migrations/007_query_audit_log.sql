@@ -24,11 +24,11 @@ CREATE TABLE IF NOT EXISTS query_audit_log (
     ),
     latency_ms INTEGER,
     created_at TIMESTAMPTZ DEFAULT NOW()
-    )
+    );
 
 CREATE INDEX IF NOT EXISTS idx_query_audit_tenant
-    ON query_audit_log(tenant_id)
+    ON query_audit_log(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_query_audit_created
-    ON query_audit_log(created_at)
+    ON query_audit_log(created_at);
 CREATE INDEX IF NOT EXISTS idx_query_audit_query_hash
-    ON query_audit_log(query_hash)
+    ON query_audit_log(query_hash);

@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS tenants (
                                 )
     ),
     created_at TIMESTAMPTZ DEFAULT NOW()
-    )
+    );

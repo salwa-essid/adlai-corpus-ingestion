@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS document_diffs (
     llm_impact_analysis TEXT,
     detected_at TIMESTAMPTZ DEFAULT NOW(),
     notified_at TIMESTAMPTZ
-    )
+    );
 
 CREATE INDEX IF NOT EXISTS idx_document_diffs_source
     ON document_diffs(source_id);

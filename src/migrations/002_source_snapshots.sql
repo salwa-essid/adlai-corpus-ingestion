@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS source_snapshots (
     content_hash TEXT NOT NULL,
     storage_ref TEXT NOT NULL,
     content_type TEXT NOT NULL
-    )
+    );
 CREATE INDEX IF NOT EXISTS idx_source_snapshots_source
     ON source_snapshots(source_id);
 CREATE INDEX IF NOT EXISTS idx_source_snapshots_hash
