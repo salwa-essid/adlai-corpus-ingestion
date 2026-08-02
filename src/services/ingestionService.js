@@ -16,6 +16,10 @@ const {
     getArticlesByDocumentId
 } = require("../repositories/articleRepository");
 const {saveSnapshot} = require("../repositories/sourceSnapshotRepository");
+const {
+    saveDocumentDiff,
+    markNotificationSent
+} = require("../repositories/documentDiffRepository");
 const { testConnection } = require("./databaseService");
 const logger = require("../utils/logger");
 const {
@@ -24,8 +28,9 @@ const {
 } = require("../repositories/ingestionRunRepository");
 const {generateContentHash} = require("./hashService");
 const {buildDocumentDiff} = require("./documentDiffService");
-const {saveDocumentDiff} = require("../repositories/documentDiffRepository");
-
+const {
+    analyzeImpact
+} = require("./aiWatchService");
 async function runPipeline(options = {}) {
     logger.info("ADLAI Corpus Ingestion Pipeline Started...");
     await testConnection();
@@ -43,23 +48,23 @@ async function runPipeline(options = {}) {
         const articles = await readArticles(source.name);
         const sourceHash = generateContentHash(articles);
         validateArticles(source.name, articles);
-        // DRY RUN
+        // ---------------- DRY RUN ----------------
         if (options.dryRun) {
             logger.info(`[DRY RUN] ${source.name}: ${articles.length} articles validated.`);
             totalArticles += articles.length;
             console.log();
             continue;
         }
-        // Save Source
+        // ---------------- SOURCE ----------------
         const savedSource = await saveSource(source);
         console.log(`Source saved: ${savedSource.code}`);
-        // Start ingestion run
+        // ---------------- INGESTION RUN ----------------
         const runId = await startIngestionRun(
             savedSource.id,
             source.source_url || null
         );
         console.log(`Ingestion Run: ${runId}`);
-        // Save snapshot
+        // ---------------- SNAPSHOT ----------------
         await saveSnapshot({
             sourceId: savedSource.id,
             fetchedAt: source.fetched_at
@@ -71,13 +76,12 @@ async function runPipeline(options = {}) {
                 ? "application/pdf"
                 : "text/html"
         });
-
-        // Change detection
-        const existingDocument = await findDocumentByHash(
-            savedSource.id,
-            sourceHash
-        );
-
+        // ---------------- CHANGE DETECTION ----------------
+        const existingDocument =
+            await findDocumentByHash(
+                savedSource.id,
+                sourceHash
+            );
         if (existingDocument) {
             logger.info(`No changes detected for ${source.name}. Skipping...`);
             await completeIngestionRun(runId, {
@@ -88,13 +92,12 @@ async function runPipeline(options = {}) {
             console.log();
             continue;
         }
-        // Previous version
+        // ---------------- VERSION ----------------
         const latestDocument =
             await findLatestDocument(savedSource.id);
-        // Next version
         const version =
             await getNextVersion(savedSource.id);
-        // Save new document
+        // ---------------- SAVE DOCUMENT ----------------
         const documentId = await saveDocument({
             sourceId: savedSource.id,
             version,
@@ -109,41 +112,48 @@ async function runPipeline(options = {}) {
         });
 
         console.log(`Document created: ${documentId}`);
-        // Mark previous version as superseded
+        // ---------------- SUPERSEDED ----------------
         if (latestDocument) {
             await markDocumentSuperseded(
                 latestDocument.id,
                 documentId
             );
         }
-
-        // Save Articles + Chunks
+        // ---------------- ARTICLES ----------------
         await saveArticles(documentId, articles);
-        // Build document diff
+        // ---------------- DOCUMENT DIFF ----------------
         if (latestDocument) {
             const oldArticles =
                 await getArticlesByDocumentId(
                     latestDocument.id
                 );
-            console.log("OLD ARTICLE:");
-            console.log(oldArticles[0]);
-            console.log("NEW ARTICLE:");
-            console.log(articles[0]);
             const diffSummary =
                 buildDocumentDiff(
                     oldArticles,
                     articles
                 );
-            await saveDocumentDiff({
-                sourceId: savedSource.id,
-                oldDocumentId: latestDocument.id,
-                newDocumentId: documentId,
-                diffSummary,
-                llmImpactAnalysis: null
-            });
+            const impact =
+                analyzeImpact(diffSummary);
+            const diffId =
+                await saveDocumentDiff({
+                    sourceId: savedSource.id,
+                    oldDocumentId:
+                    latestDocument.id,
+                    newDocumentId:
+                    documentId,
+                    diffSummary,
+                    llmImpactAnalysis:
+                    impact
+                });
 
+            logger.success(
+                "AI Watch notification created."
+            );
+            // MOCK notification
+            await markNotificationSent(diffId);
+            logger.success("Notification marked as sent.");
         }
-        // Complete ingestion run
+        // ---------------- COMPLETE RUN ----------------
         await completeIngestionRun(runId, {
             documents: 1,
             articles: articles.length,
@@ -153,12 +163,15 @@ async function runPipeline(options = {}) {
         logger.success(`${source.name}: ${articles.length} articles processed`);
         console.log();
     }
-
     logger.info(`Total Sources : ${sources.length}`);
-    const { rows } = await pool.query("SELECT COUNT(*)::int AS total FROM articles");
+    const { rows } = await pool.query(
+        `
+        SELECT COUNT(*)::int AS total
+        FROM articles;
+        `
+    );
     logger.info(`Total Articles in database: ${rows[0].total}`);
     logger.info(`Articles processed this run: ${totalArticles}`);
-
 }
 
 module.exports = {
