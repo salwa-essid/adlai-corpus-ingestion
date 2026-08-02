@@ -76,7 +76,8 @@ async function saveArticles(documentId, articles) {
             await extractCrossReferences(
                 documentId,
                 articleId,
-                article.text
+                article.text,
+                findArticleByNumber
             );
 
             const chunks = chunkArticle(article);
