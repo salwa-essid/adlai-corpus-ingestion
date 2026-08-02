@@ -16,10 +16,8 @@ const {
     getArticlesByDocumentId
 } = require("../repositories/articleRepository");
 const {saveSnapshot} = require("../repositories/sourceSnapshotRepository");
-const {
-    saveDocumentDiff,
-    markNotificationSent
-} = require("../repositories/documentDiffRepository");
+const {saveDocumentDiff} = require("../repositories/documentDiffRepository");
+const {buildDocumentDiff} = require("./documentDiffService");
 const { testConnection } = require("./databaseService");
 const logger = require("../utils/logger");
 const {
@@ -27,10 +25,6 @@ const {
     completeIngestionRun
 } = require("../repositories/ingestionRunRepository");
 const {generateContentHash} = require("./hashService");
-const {buildDocumentDiff} = require("./documentDiffService");
-const {
-    analyzeImpact
-} = require("./aiWatchService");
 async function runPipeline(options = {}) {
     logger.info("ADLAI Corpus Ingestion Pipeline Started...");
     await testConnection();
@@ -50,7 +44,7 @@ async function runPipeline(options = {}) {
         validateArticles(source.name, articles);
         // ---------------- DRY RUN ----------------
         if (options.dryRun) {
-            logger.info(`[DRY RUN] ${source.name}: ${articles.length} articles validated.`);
+            logger.info( `[DRY RUN] ${source.name}: ${articles.length} articles validated.`);
             totalArticles += articles.length;
             console.log();
             continue;
@@ -121,7 +115,7 @@ async function runPipeline(options = {}) {
         }
         // ---------------- ARTICLES ----------------
         await saveArticles(documentId, articles);
-        // ---------------- DOCUMENT DIFF ----------------
+        // --------------- DOCUMENT DIFF ----------------
         if (latestDocument) {
             const oldArticles =
                 await getArticlesByDocumentId(
@@ -132,26 +126,14 @@ async function runPipeline(options = {}) {
                     oldArticles,
                     articles
                 );
-            const impact =
-                analyzeImpact(diffSummary);
-            const diffId =
-                await saveDocumentDiff({
-                    sourceId: savedSource.id,
-                    oldDocumentId:
-                    latestDocument.id,
-                    newDocumentId:
-                    documentId,
-                    diffSummary,
-                    llmImpactAnalysis:
-                    impact
-                });
-
-            logger.success(
-                "AI Watch notification created."
-            );
-            // MOCK notification
-            await markNotificationSent(diffId);
-            logger.success("Notification marked as sent.");
+            await saveDocumentDiff({
+                sourceId: savedSource.id,
+                oldDocumentId: latestDocument.id,
+                newDocumentId: documentId,
+                diffSummary,
+                llmImpactAnalysis: null
+            });
+            logger.success("Document diff created.");
         }
         // ---------------- COMPLETE RUN ----------------
         await completeIngestionRun(runId, {
@@ -165,10 +147,7 @@ async function runPipeline(options = {}) {
     }
     logger.info(`Total Sources : ${sources.length}`);
     const { rows } = await pool.query(
-        `
-        SELECT COUNT(*)::int AS total
-        FROM articles;
-        `
+        `SELECT COUNT(*)::int AS total FROM articles`
     );
     logger.info(`Total Articles in database: ${rows[0].total}`);
     logger.info(`Articles processed this run: ${totalArticles}`);
