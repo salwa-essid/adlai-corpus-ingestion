@@ -133,7 +133,21 @@ async function findArticleByNumber(documentId, articleNumber) {
 
     return rows[0] || null;
 }
+async function getArticlesByDocumentId(documentId) {
 
+    const query = `
+        SELECT
+            article_number,
+            COALESCE(text_ar, text_en) AS text
+        FROM articles
+        WHERE document_id = $1
+        ORDER BY ordering;
+    `;
+
+    const { rows } = await pool.query(query, [documentId]);
+
+    return rows;
+}
 module.exports = {
-    saveArticles,findArticleByNumber
+    saveArticles,findArticleByNumber,getArticlesByDocumentId
 };

@@ -16,7 +16,6 @@ async function findDocumentByHash(sourceId, sourceHash) {
 
     return rows[0] || null;
 }
-
 async function findLatestDocument(sourceId) {
     const query = `
         SELECT
@@ -31,7 +30,6 @@ async function findLatestDocument(sourceId) {
     `;
 
     const { rows } = await pool.query(query, [sourceId]);
-
     return rows[0] || null;
 }
 
@@ -62,7 +60,6 @@ async function saveDocument(document) {
 
     return rows[0].id;
 }
-
 module.exports = {
     findDocumentByHash,
     findLatestDocument,
