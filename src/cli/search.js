@@ -1,7 +1,8 @@
 const { generateEmbedding } = require("../services/embeddingService");
-const { searchByEmbedding } = require("../repositories/searchRepository");
+const { searchHybrid } = require("../repositories/searchRepository");
 const { auditQuery } = require("../services/queryAuditService");
 const { getOrCreateDevTenant } = require("../repositories/tenantRepository");
+const { normalizeArabic } = require("../services/normalizationService");
 const pool = require("../config/database");
 
 function parseArguments() {
@@ -24,6 +25,7 @@ function parseArguments() {
 }
 async function main() {
     const options = parseArguments();
+
     if (!options.query) {
         console.error('Usage: node src/cli/search.js --query "<text>" [--limit N]');
         process.exit(1);
@@ -32,7 +34,13 @@ async function main() {
         console.log(`Searching for: "${options.query}"`);
         const startedAt = Date.now();
         const embedding = await generateEmbedding(options.query, "search_query");
-        const results = await searchByEmbedding(embedding, options.limit);
+        // Sparse side matches against text_ar_tsv, which was built from
+        // text_ar_normalized — so the query needs the same normalization
+        // (diacritic stripping etc.) to actually match. Postgres's
+        // unaccent() alone doesn't strip Arabic tashkil (see
+        // normalizationService.js), so this uses our own normalizer.
+        const normalizedQuery = normalizeArabic(options.query);
+        const results = await searchHybrid(embedding, normalizedQuery, options.limit);
         const latencyMs = Date.now() - startedAt;
         if (results.length === 0) {
             console.log("No results found.");
@@ -40,21 +48,18 @@ async function main() {
             results.forEach((r, i) => {
                 console.log(
                     `\n${i + 1}. [${r.source_code}] Article ${r.article_number} ` +
-                    `(distance: ${Number(r.distance).toFixed(4)})`
+                    `(score: ${Number(r.score).toFixed(4)})`
                 );
                 console.log(`   ${r.chunk_text.slice(0, 150)}...`);
             });
         }
-        // Log this retrieval per spec 4.4 (query_audit_log — every
-        // retrieval + generation call). No real auth/tenant system
-        // exists yet, so this logs against a placeholder dev tenant.
         const tenantId = await getOrCreateDevTenant();
         await auditQuery({
             tenantId,
             userId: null,
             queryText: options.query,
             retrievedChunkIds: results.map((r) => r.id),
-            modelUsed: "embed-multilingual-v3.0",
+            modelUsed: "embed-multilingual-v3.0 + tsvector (hybrid)",
             response: JSON.stringify(results.map((r) => r.id)),
             citationVerifierStatus: "pass",
             latencyMs
