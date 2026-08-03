@@ -8,7 +8,9 @@
     "dev": "nodemon src/index.js",
     "migrate": "node src/scripts/migrate.js",
     "ingest": "node src/cli/ingest.js",
-    "watch": "node src/cli/watch.js"
+    "watch": "node src/cli/watch.js",
+    "eval": "node src/cli/eval.js",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
