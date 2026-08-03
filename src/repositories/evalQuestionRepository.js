@@ -13,7 +13,7 @@ async function saveEvalQuestion(question) {
             graded_by
         )
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-        RETURNING id;
+            RETURNING id;
     `
     const values = [
         question.version,
@@ -29,6 +29,30 @@ async function saveEvalQuestion(question) {
     return rows[0].id
 }
 
+/**
+ * Read side for the eval runner (src/cli/eval.js). Not needed until now
+ * because nothing previously executed the eval suite end to end.
+ */
+async function getEvalQuestionsByVersion(version) {
+    const query = `
+        SELECT
+            id,
+            version,
+            domain,
+            question_ar,
+            question_en,
+            expected_citations,
+            accepted_answer_ranges,
+            attorney_rubric
+        FROM eval_questions
+        WHERE version = $1
+        ORDER BY domain, id;
+    `
+    const { rows } = await pool.query(query, [version])
+    return rows
+}
+
 module.exports = {
-    saveEvalQuestion
+    saveEvalQuestion,
+    getEvalQuestionsByVersion
 }
