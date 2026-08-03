@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-01-01T00:00:00.000Z",
+  "sources": [
+    {
+      "name": "test_source",
+      "status": "success",
+      "article_count": 3,
+      "language": "ar",
+      "source_url": "https://example.test/fixture-law.pdf",
+      "fetched_at": "2026-01-01T00:00:00.000Z"
+    }
+  ]
+}
