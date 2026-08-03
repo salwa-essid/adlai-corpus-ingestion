@@ -1,6 +1,6 @@
 const pool = require("../config/database");
 
-async function saveCrossReference(reference) {
+async function saveCrossReference(reference, dbClient = pool) {
     const query = `
         INSERT INTO cross_references (
             from_article_id,
@@ -19,7 +19,7 @@ async function saveCrossReference(reference) {
         reference.confidence,
         reference.extractedBy
     ]
-    const { rows } = await pool.query(query, values)
+    const { rows } = await dbClient.query(query, values)
     return rows[0].id
 }
 
