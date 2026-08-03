@@ -1,35 +1,6 @@
 const {
     saveCrossReference
 } = require("../repositories/crossReferenceRepository");
-
-/**
- * Rule-based extraction of internal article-to-article citations
- * (spec 6.2 step 9).
- *
- * Real KSA legal texts write article numbers as Arabic ORDINAL WORDS
- * ("المادة الرابعة عشرة"), not digits ("المادة 14") — a plain \d+
- * regex matches almost nothing in this corpus. This includes an
- * Arabic ordinal-word -> number parser.
- *
- * Also filters out ARTICLE HEADINGS, not just real citations: legal
- * text always opens with "المادة X: <title>" (colon right after the
- * ordinal) — that's the article naming itself, not citing another
- * article. Without this filter, ~99% of "matches" turn out to be
- * headings, not citations (verified against real data: companies.json
- * alone had 428 raw matches, only 5 were genuine citations after
- * filtering). This also incidentally helps with a separate known
- * upstream data issue where some source files merge several real
- * legal articles into one JSON record — the embedded headings from
- * those merged articles get filtered out the same way.
- *
- * dbClient: pass the transaction client from articleRepository.js so
- * lookups/writes can see the other not-yet-committed articles of the
- * same document. Using the plain pool here would query a separate
- * connection that can't see this transaction's uncommitted rows yet,
- * causing every lookup to fail and every insert to violate the FK
- * constraint against from_article_id.
- */
-
 const UNITS = {
     "الأولى": 1, "الاولى": 1, "الحادية": 1,
     "الثانية": 2,
@@ -53,9 +24,16 @@ const TENS = {
     "الثمانون": 80,
     "التسعون": 90
 };
-
+// (?:ال|لل) — covers both "المادة" (bare, or after a prefix like بـ/كـ/فـ
+// that doesn't touch the alef) and "للمادة" (لـ + المادة, where Arabic
+// orthography elides the alef when lam meets the definite article's
+// lam: لـ + المادة -> للمادة, not "لالمادة"). Missing the "لل" form
+// dropped real citations: e.g. "وفقاً للمادة الرابعة عشرة" is common
+// phrasing across this corpus (verified: 10 occurrences across
+// companies.json/zatca_*.json that the bare "الماد[ةه]" pattern
+// silently skipped).
 const REFERENCE_REGEX = new RegExp(
-    "الماد[ةه]\\s+" +
+    "(?:ال|لل)ماد[ةه]\\s+" +
     "(" + Object.keys(UNITS).join("|") + ")" +
     "(?:\\s+(عشرة))?" +
     "(?:\\s+و(" + Object.keys(TENS).join("|") + "))?" +
@@ -122,5 +100,9 @@ async function extractCrossReferences(
 }
 
 module.exports = {
-    extractCrossReferences
+    extractCrossReferences,
+    // Pure, I/O-free — exported for unit testing (see test/unit/).
+    // extractCrossReferences itself always needs a live DB (it calls
+    // saveCrossReference directly), so it isn't unit-testable as-is.
+    extractOrdinalReferences
 };
