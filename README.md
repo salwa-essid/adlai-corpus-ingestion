@@ -105,16 +105,26 @@ npm run migrate           # applies src/migrations/*.sql in order, tracked in sc
 | `npm run eval -- --version v1 [--top-k 3]` | Runs `eval_questions` for a version against live retrieval, records one row in `eval_runs`. |
 | `npm test` | Runs `test/unit/*` and `test/integration/*` (`node --test`, no extra dependency). Integration tests skip themselves if Postgres isn't reachable. |
 
+## Scripts
+
+Not npm-aliased, run directly with `node`:
+
+| Script | Purpose |
+|---|---|
+| `node scripts/load-test.js [--clones-per-source N]` | Spec section 9 load test: clones the real corpus `N`x (default 10) into synthetic sources, runs them through the real ingestion pipeline with embeddings stubbed, reports throughput, then removes every synthetic row/file it created. |
+| `node scripts/import-eval-questions.js --file <csv> [--dry-run]` | Imports attorney-authored eval questions from a CSV (see `scripts/eval-questions-template.csv`) into `eval_questions`. |
+| `node scripts/extract-pdf.js --file <pdf> --out <name>` | Re-extracts a source PDF to `output/<name>.extracted.json`, flagging likely-corrupted articles for manual review. Does not overwrite the original automatically. |
+
 ## Known gaps (v1)
 
 This repo covers the corpus schema, ingestion pipeline, hybrid retrieval, RLS isolation, and eval runner. Not yet done:
 
-- **Source parsing**: no PDF/HTML/docx parser classes in this repo — ingestion reads already-parsed JSON from `output/`, produced by a separate scraper. Needs confirmation on whether that split is permanent.
+- **Source parsing**: no PDF/HTML/docx parser classes in this repo — ingestion reads already-parsed JSON from `output/`, produced by a separate scraper. Needs confirmation on whether that split is permanent. `scripts/extract-pdf.js` is a real re-extraction tool for cases where the original parse is corrupted (built for `ZATCA_VAT_AGREEMENT`, which still has source-level corruption — see the script's own comments; it's a best-effort tool, not a guaranteed fix).
 - **ChromaDB cutover** (shadow mode, recall@3 comparison, `use_postgres_retrieval` feature flag): not started.
-- **Eval question set**: the runner works end-to-end, but needs a real attorney-authored question set per domain before its numbers mean anything for a cutover decision.
+- **Eval question set**: the runner works end-to-end, but needs a real attorney-authored question set per domain before its numbers mean anything for a cutover decision. `scripts/import-eval-questions.js` + `scripts/eval-questions-template.csv` let an attorney author questions in a spreadsheet and import them without touching the DB directly — the tooling is ready, the actual questions still need a real attorney to write them.
 - **AI Watch**: diff detection and the notification loop work; `llm_impact_analysis` is currently a rule-based stub, and notification delivery is a console log, not a real channel.
-- **`query_audit_log` partitioning** (monthly, per spec) and retention jobs (90d standard / 365d sovereign): not implemented.
-- Load test, and `.env`-based CI wiring: not implemented.
+- **`query_audit_log` partitioning** (monthly, per spec) and retention jobs (90d standard / 365d sovereign): not implemented — deprioritized (not required for the pipeline to work, revisit if/when audit log volume becomes a real problem).
+- `.env`-based CI wiring: not implemented.
 
 ## Author
 

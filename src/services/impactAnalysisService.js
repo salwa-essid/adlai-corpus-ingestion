@@ -1,8 +1,8 @@
 function generateImpactAnalysis(diffSummary) {
 
-    const added = diffSummary.added_articles || 0;
-    const updated = diffSummary.updated_articles || 0;
-    const removed = diffSummary.removed_articles || 0;
+    const added = diffSummary.added_articles?.length || 0;
+    const updated = diffSummary.updated_articles?.length || 0;
+    const removed = diffSummary.removed_articles?.length || 0;
 
     if (
         added === 0 &&
