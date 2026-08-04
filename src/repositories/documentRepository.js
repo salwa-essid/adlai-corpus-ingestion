@@ -6,7 +6,7 @@ async function findDocumentByHash(sourceId, sourceHash) {
         FROM documents
         WHERE source_id = $1
           AND source_hash = $2
-        LIMIT 1;
+            LIMIT 1;
     `;
     const { rows } = await pool.query(query, [
         sourceId,
@@ -24,7 +24,7 @@ async function findLatestDocument(sourceId) {
         FROM documents
         WHERE source_id = $1
         ORDER BY created_at DESC
-        LIMIT 1;
+            LIMIT 1;
     `;
     const { rows } = await pool.query(query, [sourceId]);
     return rows[0] || null;
@@ -35,7 +35,7 @@ async function getNextVersion(sourceId) {
         FROM documents
         WHERE source_id = $1
         ORDER BY created_at DESC
-        LIMIT 1;
+            LIMIT 1;
     `;
     const { rows } = await pool.query(query, [sourceId]);
     if (rows.length === 0) {
@@ -48,7 +48,15 @@ async function getNextVersion(sourceId) {
     );
     return `v${number + 1}`;
 }
-async function saveDocument(document) {
+// dbClient lets the caller (ingestionService) run this inside the SAME
+// transaction as saveArticles. Without that, saveDocument commits the
+// document row (and its source_hash) on the pool immediately; if
+// saveArticles then fails, the document is left permanently stuck with
+// 0 articles but a source_hash that matches the current file — so every
+// future ingest run sees "no changes detected" and skips it forever.
+// Defaulting to `pool` keeps every existing caller (diagnostics, tests)
+// working unchanged.
+async function saveDocument(document, dbClient = pool) {
     const query = `
         INSERT INTO documents (
             source_id,
@@ -69,16 +77,16 @@ async function saveDocument(document) {
         document.language,
         JSON.stringify(document.metadata)
     ];
-    const { rows } = await pool.query(query, values);
+    const { rows } = await dbClient.query(query, values);
     return rows[0].id;
 }
-async function markDocumentSuperseded(oldDocumentId, newDocumentId) {
+async function markDocumentSuperseded(oldDocumentId, newDocumentId, dbClient = pool) {
     const query = `
         UPDATE documents
         SET superseded_by = $2
         WHERE id = $1;
     `;
-    await pool.query(query, [
+    await dbClient.query(query, [
         oldDocumentId,
         newDocumentId
     ]);

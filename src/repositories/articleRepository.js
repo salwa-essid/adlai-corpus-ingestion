@@ -7,13 +7,24 @@ const {
     extractCrossReferences
 } = require("../services/crossReferenceExtractor");
 
-async function saveArticles(documentId, articles) {
+// externalClient lets the caller (ingestionService) run this insert in
+// the SAME transaction as creating the document row. If we manage our
+// own connection+transaction here (the old behavior, still used by
+// standalone scripts), a failure here leaves an already-committed
+// document row pointing at 0 articles — and since its source_hash still
+// matches the current file, every future ingest run treats the source
+// as "unchanged" and skips it forever, silently. Passing externalClient
+// from runPipeline() closes that gap: if this fails, the whole
+// document+articles transaction rolls back together, so the next run
+// correctly detects it as still needing ingestion.
+async function saveArticles(documentId, articles, externalClient = null) {
 
-    const client = await pool.connect();
+    const client = externalClient || await pool.connect();
+    const ownsTransaction = !externalClient;
 
     try {
 
-        await client.query("BEGIN");
+        if (ownsTransaction) await client.query("BEGIN");
 
         // Delete old chunks
         await client.query(
@@ -137,18 +148,18 @@ async function saveArticles(documentId, articles) {
             );
         }
 
-        await client.query("COMMIT");
+        if (ownsTransaction) await client.query("COMMIT");
 
         console.log(`${articles.length} articles saved.`);
 
     } catch (error) {
 
-        await client.query("ROLLBACK");
+        if (ownsTransaction) await client.query("ROLLBACK");
         throw error;
 
     } finally {
 
-        client.release();
+        if (ownsTransaction) client.release();
 
     }
 }
@@ -159,7 +170,7 @@ async function findArticleByNumber(documentId, articleNumber, dbClient = pool) {
         FROM articles
         WHERE document_id = $1
           AND article_number = $2
-        LIMIT 1;
+            LIMIT 1;
     `;
 
     const { rows } = await dbClient.query(query, [

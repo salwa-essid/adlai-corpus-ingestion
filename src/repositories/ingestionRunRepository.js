@@ -9,7 +9,7 @@ async function startIngestionRun(sourceId, inputUrl = null) {
             input_url
         )
         VALUES ($1, 'running', 'v1.0', $2)
-        RETURNING id;
+            RETURNING id;
     `
     const { rows } = await pool.query(query, [
         sourceId,
@@ -35,7 +35,27 @@ async function completeIngestionRun(runId, stats) {
         stats.chunks
     ]);
 }
+
+// Records a real failure instead of leaving the run stuck at 'running'
+// (or, worse, having the caller silently swallow the error and never
+// mark it at all — which is what happened before this run's document
+// could end up with 0 articles and no trace of why in ingestion_runs).
+async function failIngestionRun(runId, errorMessage) {
+    const query = `
+        UPDATE ingestion_runs
+        SET
+            completed_at = NOW(),
+            status = 'failed',
+            error_log = $2::jsonb
+        WHERE id = $1;
+    `;
+    await pool.query(query, [
+        runId,
+        JSON.stringify({ message: errorMessage })
+    ]);
+}
 module.exports = {
     startIngestionRun,
-    completeIngestionRun
+    completeIngestionRun,
+    failIngestionRun
 };
