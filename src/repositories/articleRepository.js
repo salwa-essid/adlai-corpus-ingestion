@@ -6,26 +6,11 @@ const { generateEmbeddings } = require("../services/embeddingService");
 const {
     extractCrossReferences
 } = require("../services/crossReferenceExtractor");
-
-// externalClient lets the caller (ingestionService) run this insert in
-// the SAME transaction as creating the document row. If we manage our
-// own connection+transaction here (the old behavior, still used by
-// standalone scripts), a failure here leaves an already-committed
-// document row pointing at 0 articles — and since its source_hash still
-// matches the current file, every future ingest run treats the source
-// as "unchanged" and skips it forever, silently. Passing externalClient
-// from runPipeline() closes that gap: if this fails, the whole
-// document+articles transaction rolls back together, so the next run
-// correctly detects it as still needing ingestion.
 async function saveArticles(documentId, articles, externalClient = null) {
-
     const client = externalClient || await pool.connect();
     const ownsTransaction = !externalClient;
-
     try {
-
         if (ownsTransaction) await client.query("BEGIN");
-
         // Delete old chunks
         await client.query(
             `
@@ -38,7 +23,6 @@ async function saveArticles(documentId, articles, externalClient = null) {
             `,
             [documentId]
         );
-
         // Delete old articles
         await client.query(
             `
@@ -47,26 +31,17 @@ async function saveArticles(documentId, articles, externalClient = null) {
             `,
             [documentId]
         );
-
         let ordering = 1;
-
-        // Pass 1: insert every article, and build the full list of
-        // chunks across the whole document. Chunks aren't saved yet —
-        // embeddings are generated in one batched call below (spec 6.2:
-        // "Batched provider call, 100 chunks per batch") instead of one
-        // Cohere request per chunk, which burns through the trial rate
-        // limit fast on any source with more than a handful of articles.
         const insertedArticles = [];
         const pendingChunks = []; // { articleId, chunkIndex, chunkText, chunkTextNormalized, tokenCount }
-
+        const arabicScriptPattern = /[؀-ۿ]/;
         for (const article of articles) {
-
-            const isArabic = article.language === "ar";
-
+            const isArabic =
+                article.language === "ar" ||
+                arabicScriptPattern.test(article.text || "");
             const normalized = isArabic
                 ? normalizeArabic(article.text)
                 : "";
-
             const query = `
                 INSERT INTO articles (
                     document_id,
@@ -88,15 +63,10 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 isArabic ? "" : article.text,
                 normalized
             ];
-
             const result = await client.query(query, values);
-
             const articleId = result.rows[0].id;
-
             insertedArticles.push({ articleId, text: article.text });
-
             const chunks = chunkArticle(article);
-
             for (const chunk of chunks) {
                 pendingChunks.push({
                     articleId,
@@ -114,7 +84,6 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 pendingChunks.map((c) => c.chunkText),
                 "search_document"
             );
-
             for (let i = 0; i < pendingChunks.length; i++) {
                 await saveChunk(client, {
                     articleId: pendingChunks[i].articleId,
@@ -128,16 +97,8 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 });
             }
         }
-
-        // Pass 2: now that every article in this document exists (in this
-        // same transaction), extract cross-references. findArticleByNumber
-        // uses `client` (not the pool) so it can see these not-yet-committed
-        // rows — using the pool here would query a different connection
-        // that can't see this transaction's writes yet, so every lookup
-        // would silently fail to find a target.
         const findArticleByNumberInTx = (docId, articleNumber) =>
             findArticleByNumber(docId, articleNumber, client);
-
         for (const { articleId, text } of insertedArticles) {
             await extractCrossReferences(
                 documentId,
@@ -147,18 +108,12 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 client
             );
         }
-
         if (ownsTransaction) await client.query("COMMIT");
-
         console.log(`${articles.length} articles saved.`);
-
     } catch (error) {
-
         if (ownsTransaction) await client.query("ROLLBACK");
         throw error;
-
     } finally {
-
         if (ownsTransaction) client.release();
 
     }
@@ -170,17 +125,15 @@ async function findArticleByNumber(documentId, articleNumber, dbClient = pool) {
         FROM articles
         WHERE document_id = $1
           AND article_number = $2
-            LIMIT 1;
+        LIMIT 1;
     `;
 
     const { rows } = await dbClient.query(query, [
         documentId,
         articleNumber
     ]);
-
     return rows[0] || null;
 }
-
 async function getArticlesByDocumentId(documentId) {
 
     const query = `
@@ -191,9 +144,7 @@ async function getArticlesByDocumentId(documentId) {
         WHERE document_id = $1
         ORDER BY ordering;
     `;
-
     const { rows } = await pool.query(query, [documentId]);
-
     return rows;
 }
 
