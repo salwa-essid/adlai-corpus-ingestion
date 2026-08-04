@@ -1,8 +1,6 @@
 const pool = require("../config/database");
-
 // Dense-only (kept for reference / simple cases).
 async function searchByEmbedding(embedding, limit = 5) {
-
     const query = `
         SELECT
             ac.id,
@@ -24,12 +22,10 @@ async function searchByEmbedding(embedding, limit = 5) {
         ORDER BY ac.embedding_ar <=> $1
             LIMIT $2;
     `;
-
     const { rows } = await pool.query(query, [
         embedding,
         limit
     ]);
-
     return rows;
 }
 async function searchHybrid(embedding, normalizedQueryText, limit = 5, candidatePoolSize = 40) {
@@ -41,37 +37,48 @@ async function searchHybrid(embedding, normalizedQueryText, limit = 5, candidate
                 ac.article_id,
                 1.0 / (1 + (ac.embedding_ar <=> $1)) AS dense_score
             FROM article_chunks ac
-            JOIN articles a ON a.id = ac.article_id
-            JOIN documents d ON d.id = a.document_id
+                     JOIN articles a ON a.id = ac.article_id
+                     JOIN documents d ON d.id = a.document_id
             WHERE ac.embedding_ar IS NOT NULL
               AND d.superseded_by IS NULL
             ORDER BY ac.embedding_ar <=> $1
             LIMIT $3
-        ),
-        sparse AS (
-            SELECT
-                ac.id,
-                ac.chunk_text,
-                ac.article_id,
-                ts_rank(a.text_ar_tsv, plainto_tsquery('simple', $2)) AS sparse_score
-            FROM article_chunks ac
+            ),
+            sparse AS (
+        SELECT
+            ac.id,
+            ac.chunk_text,
+            ac.article_id,
+            ts_rank(a.text_ar_tsv, plainto_tsquery('simple', $2)) AS sparse_score
+        FROM article_chunks ac
             JOIN articles a ON a.id = ac.article_id
             JOIN documents d ON d.id = a.document_id
-            WHERE a.text_ar_tsv @@ plainto_tsquery('simple', $2)
-              AND d.superseded_by IS NULL
-            ORDER BY sparse_score DESC
+        WHERE a.text_ar_tsv @@ plainto_tsquery('simple', $2)
+          AND d.superseded_by IS NULL
+        ORDER BY sparse_score DESC
             LIMIT $3
-        ),
-        fused AS (
-            SELECT
-                COALESCE(d.id, sp.id) AS id,
-                COALESCE(d.chunk_text, sp.chunk_text) AS chunk_text,
-                COALESCE(d.article_id, sp.article_id) AS article_id,
-                COALESCE(d.dense_score, 0) + COALESCE(sp.sparse_score, 0) AS score
-            FROM dense d
-            FULL OUTER JOIN sparse sp ON d.id = sp.id
-        )
+            ),
+            fused AS (
         SELECT
+            COALESCE(d.id, sp.id) AS id,
+            COALESCE(d.chunk_text, sp.chunk_text) AS chunk_text,
+            COALESCE(d.article_id, sp.article_id) AS article_id,
+            COALESCE(d.dense_score, 0) + COALESCE(sp.sparse_score, 0) AS score
+        FROM dense d
+            FULL OUTER JOIN sparse sp ON d.id = sp.id
+            ),
+            -- DISTINCT ON (article_id): keep only the single best-scoring
+            -- chunk per article. Without this, a long article split into
+            -- several chunks can occupy ALL topK slots by itself (every
+            -- chunk of the same well-matching article outranks everything
+            -- else), silently starving out a different, genuinely correct
+            -- article that only produced one matching chunk. Citations are
+            -- bound at the article level (spec 5.3), so topK should mean
+            -- "K distinct articles", not "K chunks that might repeat one
+            -- article". Found 2026-08-04: a companies-law eval question
+            -- returned the same article three times in the raw top-3.
+            ranked AS (
+        SELECT DISTINCT ON (f.article_id)
             f.id,
             f.chunk_text,
             f.article_id,
@@ -79,11 +86,15 @@ async function searchHybrid(embedding, normalizedQueryText, limit = 5, candidate
             a.article_number,
             s.code AS source_code
         FROM fused f
-        JOIN articles a ON a.id = f.article_id
-        JOIN documents doc ON doc.id = a.document_id
-        JOIN sources s ON s.id = doc.source_id
-        ORDER BY f.score DESC
-        LIMIT $4;
+            JOIN articles a ON a.id = f.article_id
+            JOIN documents doc ON doc.id = a.document_id
+            JOIN sources s ON s.id = doc.source_id
+        ORDER BY f.article_id, f.score DESC
+            )
+        SELECT *
+        FROM ranked
+        ORDER BY score DESC
+            LIMIT $4;
     `;
 
     const { rows } = await pool.query(query, [
