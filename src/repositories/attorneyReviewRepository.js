@@ -1,5 +1,4 @@
 const { withTenantContext } = require("../utils/tenantContext");
-
 // attorney_reviews has RLS + FORCE ROW LEVEL SECURITY (migration 012), so
 // every write needs app.current_tenant_id set on the same connection/
 // transaction first — same as queryAuditRepository.js already does.

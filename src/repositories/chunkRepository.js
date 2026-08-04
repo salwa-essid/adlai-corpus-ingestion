@@ -5,13 +5,9 @@ async function saveChunk(client, chunk) {
 
     const query = `
         INSERT INTO article_chunks (
-
             article_id,
-
             chunk_index,
-
             chunk_text,
-
             chunk_text_normalized,
 
             token_count,

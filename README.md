@@ -118,7 +118,6 @@ Not npm-aliased, run directly with `node`:
 ## Known gaps (v1)
 
 This repo covers the corpus schema, ingestion pipeline, hybrid retrieval, RLS isolation, and eval runner. Not yet done:
-
 - **Source parsing**: no PDF/HTML/docx parser classes in this repo — ingestion reads already-parsed JSON from `output/`, produced by a separate scraper. Needs confirmation on whether that split is permanent. `scripts/extract-pdf.js` is a real re-extraction tool for cases where the original parse is corrupted (built for `ZATCA_VAT_AGREEMENT`, which still has source-level corruption — see the script's own comments; it's a best-effort tool, not a guaranteed fix).
 - **ChromaDB cutover** (shadow mode, recall@3 comparison, `use_postgres_retrieval` feature flag): not started.
 - **Eval question set**: the runner works end-to-end, but needs a real attorney-authored question set per domain before its numbers mean anything for a cutover decision. `scripts/import-eval-questions.js` + `scripts/eval-questions-template.csv` let an attorney author questions in a spreadsheet and import them without touching the DB directly — the tooling is ready, the actual questions still need a real attorney to write them.
