@@ -16,7 +16,7 @@ const { saveArticles } = require("../src/repositories/articleRepository");
     );
     const documentId = docs[0].id;
 
-    const articles = JSON.parse(fs.readFileSync("../output/misa.json", "utf-8"));
+    const articles = JSON.parse(fs.readFileSync("./output/misa.json", "utf-8"));
     console.log(`Re-saving ${articles.length} misa articles into document ${documentId}...`);
     await saveArticles(documentId, articles);
     console.log("Done.");

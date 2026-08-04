@@ -42,7 +42,7 @@ const TARGETS = [
         }
         const documentId = docs[0].id;
 
-        const articles = JSON.parse(fs.readFileSync(`../output/${target.jsonFile}`, "utf-8"));
+        const articles = JSON.parse(fs.readFileSync(`./output/${target.jsonFile}`, "utf-8"));
         console.log(`  saving ${articles.length} articles into document ${documentId}...`);
         try {
             await saveArticles(documentId, articles);

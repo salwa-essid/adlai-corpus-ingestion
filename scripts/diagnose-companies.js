@@ -13,7 +13,7 @@ function hash(data) {
 }
 
 (async () => {
-    const raw = fs.readFileSync("../output/companies.json", "utf-8");
+    const raw = fs.readFileSync("./output/companies.json", "utf-8");
     const articles = JSON.parse(raw);
     const fileHash = hash(articles);
     console.log("=== output/companies.json (current file on disk) ===");

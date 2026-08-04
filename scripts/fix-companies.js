@@ -29,7 +29,7 @@ const { saveArticles } = require("../src/repositories/articleRepository");
     const documentId = docs[0].id;
     console.log("Latest companies document id:", documentId);
 
-    const articles = JSON.parse(fs.readFileSync("../output/companies.json", "utf-8"));
+    const articles = JSON.parse(fs.readFileSync("./output/companies.json", "utf-8"));
     console.log(`Attempting to save ${articles.length} articles into this document...`);
 
     try {
