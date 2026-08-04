@@ -1,8 +1,8 @@
 // Deletes the stale v1 eval_question for LABOR_LAW (it was generated from
 // the OLD mirror-reversed text, before the reverseText fix) and creates a
 // fresh one from the now-corrected article text.
-const pool = require("./src/config/database");
-const { createEvalQuestion } = require("./src/services/evalQuestionService");
+const pool = require("../src/config/database");
+const { createEvalQuestion } = require("../src/services/evalQuestionService");
 
 function stripHeading(text) {
     const colonIndex = text.indexOf(":");
@@ -72,5 +72,3 @@ function stripHeading(text) {
 
     await pool.end();
 })();
-
-

@@ -1,8 +1,8 @@
 // Deletes the stale v1 eval_questions for "companies" (they pointed at an
 // old, superseded document's article) and creates one fresh question from
 // the current, latest document.
-const pool = require("./src/config/database");
-const { createEvalQuestion } = require("./src/services/evalQuestionService");
+const pool = require("../src/config/database");
+const { createEvalQuestion } = require("../src/services/evalQuestionService");
 
 function stripHeading(text) {
     const colonIndex = text.indexOf(":");

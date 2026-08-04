@@ -5,8 +5,8 @@
 // This will print the FULL error if it fails again, so we can see the
 // real cause instead of guessing.
 const fs = require("fs");
-const pool = require("./src/config/database");
-const { saveArticles } = require("./src/repositories/articleRepository");
+const pool = require("../src/config/database");
+const { saveArticles } = require("../src/repositories/articleRepository");
 
 (async () => {
     const { rows: sourceRows } = await pool.query(`SELECT id FROM sources WHERE code = 'COMPANIES_LAW' LIMIT 1`);
@@ -29,7 +29,7 @@ const { saveArticles } = require("./src/repositories/articleRepository");
     const documentId = docs[0].id;
     console.log("Latest companies document id:", documentId);
 
-    const articles = JSON.parse(fs.readFileSync("./output/companies.json", "utf-8"));
+    const articles = JSON.parse(fs.readFileSync("../output/companies.json", "utf-8"));
     console.log(`Attempting to save ${articles.length} articles into this document...`);
 
     try {

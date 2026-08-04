@@ -4,8 +4,8 @@
 // so retrieval confuses it with companies law. Re-seed with a LATER
 // article that has real, specific content (requires a colon, i.e. an
 // actual "Article N: <definition text>" structure, not a bare heading).
-const pool = require("./src/config/database");
-const { createEvalQuestion } = require("./src/services/evalQuestionService");
+const pool = require("../src/config/database");
+const { createEvalQuestion } = require("../src/services/evalQuestionService");
 
 function stripHeading(text) {
     const colonIndex = text.indexOf(":");

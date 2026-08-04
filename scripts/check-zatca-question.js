@@ -1,10 +1,10 @@
 // Finds which of the 4 zatca eval_questions failed in the LAST eval run,
 // then manually re-runs retrieval for that one question so we can see
 // exactly what got retrieved instead of the expected article.
-const pool = require("./src/config/database");
-const { searchHybrid } = require("./src/repositories/searchRepository");
-const { generateEmbedding } = require("./src/services/embeddingService");
-const { normalizeArabic } = require("./src/services/normalizationService");
+const pool = require("../src/config/database");
+const { searchHybrid } = require("../src/repositories/searchRepository");
+const { generateEmbedding } = require("../src/services/embeddingService");
+const { normalizeArabic } = require("../src/services/normalizationService");
 
 (async () => {
     const { rows: runs } = await pool.query(

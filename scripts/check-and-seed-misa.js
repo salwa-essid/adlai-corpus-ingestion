@@ -2,8 +2,8 @@
 // text this time, and if so, seeds the missing 'misa' eval_question
 // (it was never seeded before because every misa article used to be
 // 100% English).
-const pool = require("./src/config/database");
-const { createEvalQuestion } = require("./src/services/evalQuestionService");
+const pool = require("../src/config/database");
+const { createEvalQuestion } = require("../src/services/evalQuestionService");
 
 function stripHeading(text) {
     const colonIndex = text.indexOf(":");

@@ -2,7 +2,7 @@
 // LATEST one actually have articles?) and checks whether each zatca
 // eval_question's expected_citations point at an article that belongs to
 // that source's current latest document.
-const pool = require("./src/config/database");
+const pool = require("../src/config/database");
 
 const ZATCA_CODES = [
     "ZATCA_EINVOICING", "ZATCA_EINVOICING_REGULATION", // handles either, in case of the slug mismatch

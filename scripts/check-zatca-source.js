@@ -1,5 +1,5 @@
 // Quick check: did the issuer fix actually apply to the sources row?
-const pool = require("./src/config/database");
+const pool = require("../src/config/database");
 
 (async () => {
     const { rows } = await pool.query(

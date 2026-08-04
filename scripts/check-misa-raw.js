@@ -3,7 +3,7 @@
 // characters appear anywhere, regardless of tag.
 const fs = require("fs");
 
-const data = JSON.parse(fs.readFileSync("./output/misa.json", "utf-8"));
+const data = JSON.parse(fs.readFileSync("../output/misa.json", "utf-8"));
 const arabicRe = /[؀-ۿ]/;
 
 console.log(`${data.length} articles in output/misa.json`);

@@ -6,9 +6,9 @@
 //      article for that source
 //   3. seed a fresh eval_question from the now-populated latest document
 const fs = require("fs");
-const pool = require("./src/config/database");
-const { saveArticles } = require("./src/repositories/articleRepository");
-const { createEvalQuestion } = require("./src/services/evalQuestionService");
+const pool = require("../src/config/database");
+const { saveArticles } = require("../src/repositories/articleRepository");
+const { createEvalQuestion } = require("../src/services/evalQuestionService");
 
 function stripHeading(text) {
     const colonIndex = text.indexOf(":");
@@ -42,7 +42,7 @@ const TARGETS = [
         }
         const documentId = docs[0].id;
 
-        const articles = JSON.parse(fs.readFileSync(`./output/${target.jsonFile}`, "utf-8"));
+        const articles = JSON.parse(fs.readFileSync(`../output/${target.jsonFile}`, "utf-8"));
         console.log(`  saving ${articles.length} articles into document ${documentId}...`);
         try {
             await saveArticles(documentId, articles);
@@ -58,11 +58,11 @@ const TARGETS = [
             `DELETE FROM eval_questions
              WHERE version = 'v1' AND domain = 'zatca'
                AND (expected_citations->>0)::uuid IN (
-                 SELECT a.id FROM articles a
-                 JOIN documents d ON d.id = a.document_id
-                 WHERE d.source_id = $1 AND d.id != $2
-                 )
-                 RETURNING id`,
+                   SELECT a.id FROM articles a
+                   JOIN documents d ON d.id = a.document_id
+                   WHERE d.source_id = $1 AND d.id != $2
+               )
+             RETURNING id`,
             [sourceId, documentId]
         );
         console.log(`  deleted ${del.rowCount} stale question(s) for this source.`);

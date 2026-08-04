@@ -6,14 +6,14 @@
 //   old/superseded document's article, that's why recall is 0.
 const fs = require("fs");
 const crypto = require("crypto");
-const pool = require("./src/config/database");
+const pool = require("../src/config/database");
 
 function hash(data) {
     return crypto.createHash("sha256").update(JSON.stringify(data)).digest("hex");
 }
 
 (async () => {
-    const raw = fs.readFileSync("./output/companies.json", "utf-8");
+    const raw = fs.readFileSync("../output/companies.json", "utf-8");
     const articles = JSON.parse(raw);
     const fileHash = hash(articles);
     console.log("=== output/companies.json (current file on disk) ===");
