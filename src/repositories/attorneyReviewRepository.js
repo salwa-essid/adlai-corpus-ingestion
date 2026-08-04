@@ -1,5 +1,4 @@
 const pool = require("../config/database");
-
 async function saveAttorneyReview(review) {
     const query = `
         INSERT INTO attorney_reviews (

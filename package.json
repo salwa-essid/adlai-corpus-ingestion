@@ -10,13 +10,15 @@
     "ingest": "node src/cli/ingest.js",
     "watch": "node src/cli/watch.js",
     "eval": "node src/cli/eval.js",
-    "test": "node --test"
+    "test": "node --test",
+    "search": "node src/cli/search.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.4.2",
+    "pdfjs-dist": "^6.2.108",
     "pg": "^8.22.0"
   },
   "devDependencies": {
