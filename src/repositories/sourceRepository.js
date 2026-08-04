@@ -1,13 +1,6 @@
 const pool = require("../config/database")
-
-// manifest.json doesn't carry type/issuer, so we map it here by hand.
-// type must match sources.type CHECK constraint: statute | regulation | bulletin | decree | ruling | guidance
-//
-// `slug` = source.name from manifest.json — stable, never changes.
-// `code` = human-facing legal code — can change (renames/typo fixes)
-// without breaking identity, because ON CONFLICT below keys on slug.
 const SOURCE_METADATA = {
-    zatca_einvoicing: { slug: "zatca_einvoicing", code: "ZATCA_EINVOICING", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
+    zatca_einvoicing_regulation: { slug: "zatca_einvoicing_regulation", code: "ZATCA_EINVOICING_REGULATION", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
     zatca_implementation_resolution: { slug: "zatca_implementation_resolution", code: "ZATCA_IMPLEMENTATION_RESOLUTION", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
     zatca_guidelines: { slug: "zatca_guidelines", code: "ZATCA_GUIDELINES", type: "guidance", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
     zatca_vat_agreement: { slug: "zatca_vat_agreement", code: "ZATCA_VAT_AGREEMENT", type: "regulation", issuer: "Zakat, Tax and Customs Authority (ZATCA)" },
@@ -19,7 +12,6 @@ const SOURCE_METADATA = {
     nca: { slug: "nca", code: "NCA_ECC", type: "regulation", issuer: "National Cybersecurity Authority (NCA)" },
     misa: { slug: "misa", code: "MISA_INVESTMENT_LAW", type: "statute", issuer: "Ministry of Investment (MISA)" }
 }
-
 function getSourceMetadata(sourceName) {
     return SOURCE_METADATA[sourceName] || {
         slug: sourceName,
@@ -28,7 +20,6 @@ function getSourceMetadata(sourceName) {
         issuer: "Unknown"
     }
 }
-
 async function saveSource(source) {
     const meta = getSourceMetadata(source.name)
     const query = `
@@ -41,13 +32,13 @@ async function saveSource(source) {
             language_primary
         )
         VALUES ($1,$2,$3,$4,$5,$6)
-        ON CONFLICT (slug)
+            ON CONFLICT (slug)
         DO UPDATE SET
             code = EXCLUDED.code,
-            type = EXCLUDED.type,
-            issuer = EXCLUDED.issuer,
-            updated_at = NOW()
-        RETURNING *;
+                           type = EXCLUDED.type,
+                           issuer = EXCLUDED.issuer,
+                           updated_at = NOW()
+                           RETURNING *;
     `
     const values = [
         meta.slug,
@@ -60,7 +51,6 @@ async function saveSource(source) {
     const { rows } = await pool.query(query, values);
     return rows[0];
 }
-
 module.exports = {
     saveSource
 }
