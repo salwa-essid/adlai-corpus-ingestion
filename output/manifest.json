@@ -40,11 +40,11 @@
     {
       "name": "labor",
       "status": "success",
-      "article_count": 188,
+      "article_count": 248,
       "language": "ar",
       "source_url": "https://www.hrsd.gov.sa/sites/default/files/2025-02/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B9%D9%85%D9%84.pdf",
       "fetched_at": null,
-      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
+      "note": "248/248 articles (238 substantive + 10 explicitly repealed placeholders, plus a few 'مكرر' bis additions — replaces the previous under-extraction of 188/245). Re-extracted with pdftotext. Fixed: ligature-order bugs (لأ/لإ/لآ systematically reversed to أل/إل/آل; scrambled word-final '-لاً' endings, e.g. تشغيلاً/مقبولاً), and chapter/part heading text bleeding into the tail of the preceding article. Known remaining noise: one isolated stray-diacritic artifact (cosmetic only)."
     },
     {
       "name": "companies",
@@ -58,7 +58,7 @@
     {
       "name": "pdpl",
       "status": "success",
-      "article_count": 15,
+      "article_count": 43,
       "language": "ar",
       "source_url": "https://sdaia.gov.sa/ar/SDAIA/about/Documents/PersonalData.pdf",
       "fetched_at": null,
@@ -72,6 +72,24 @@
       "source_url": "https://www.sama.gov.sa/ar-sa/Laws/BankingRules/%D9%86%D8%B8%D8%A7%D9%85%20%D9%85%D8%B1%D8%A7%D9%82%D8%A8%D8%A9%20%D8%A7%D9%84%D8%A8%D9%86%D9%88%D9%83.pdf | https://www.sama.gov.sa/ar-sa/Documents/SCB_ar.pdf",
       "fetched_at": null,
       "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
+    },
+    {
+      "name": "sama_banking_control_law",
+      "status": "success",
+      "article_count": 26,
+      "language": "ar,en",
+      "source_url": "https://rulebook.sama.gov.sa/ar/نظام-مراقبة-البنوك",
+      "fetched_at": null,
+      "note": "26/26 articles, AR+EN. Fully re-extracted with pdftotext (the previous version still used pdf-parse and had reversed/garbled Arabic). Fixed: ligature-order bugs (لأ/لإ/لآ and امل reversed), على/إلى/الأولى losing their ل, في losing its ف (102 instances), decorative tatweel, and one page-layout artifact where part of Article 19's text was displaced into Article 22. Known remaining gap: Article 22's second paragraph (about persistent contravention and license revocation) is present in English only — missing from the source PDF's Arabic text extraction entirely."
+    },
+    {
+      "name": "sama_central_bank_law",
+      "status": "success",
+      "article_count": 27,
+      "language": "ar",
+      "source_url": "https://rulebook.sama.gov.sa/ar/نظام-البنك-المركزي-السعودي",
+      "fetched_at": null,
+      "note": "27/27 articles, re-extracted with pdftotext (fixed a font ligature bug), replaces the corrupted reversed-text version."
     },
     {
       "name": "cma",
@@ -98,7 +116,7 @@
       "language": "ar,en",
       "source_url": "https://misa.gov.sa/app/uploads/2024/08/Investment-Law.pdf",
       "fetched_at": null,
-      "note": "16/16 articles, re-extracted directly from the real bilingual PDF (uploaded by user) via pdf-parse, not the chat-pasted text. Each article now stores BOTH text_ar (Arabic, binding, chunked/embedded) and text_en (English, reference only, not embedded — embedding_en column unused in this pipeline version). Token-level language split, same method as before: drop pure-Latin tokens for text_ar, drop pure-Arabic-script tokens for text_en. Known remaining noise: PDF font-glyph substitution artifacts (e.g. stray Ņ/ł/Ĝ/Î glyphs) untouched, same caveat as other sources; a few words of the next article title sometimes leak onto the end of the previous article text due to interleaved page-header rendering in the source PDF (boundary-only, does not affect article completeness)."
+      "note": "16/16 articles, re-extracted with pdftotext + line-level AR/EN classification (fixes a token-level bug in the previous pdf-parse version where English words with trailing punctuation, e.g. 'Law,'/'Article:', leaked into text_ar in all 16 articles). Tatweel stripped; a few isolated dropped-letter spots fixed (e.g. التعريفات, الوزارة). Known remaining noise: minor letter-spacing within words from the source PDF's justified-text rendering (cosmetic, does not affect meaning or searchability materially)."
     }
   ]
 }
