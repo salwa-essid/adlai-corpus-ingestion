@@ -36,12 +36,27 @@ async function saveArticles(documentId, articles, externalClient = null) {
         const pendingChunks = []; // { articleId, chunkIndex, chunkText, chunkTextNormalized, tokenCount }
         const arabicScriptPattern = /[؀-ۿ]/;
         for (const article of articles) {
-            const isArabic =
-                article.language === "ar" ||
-                arabicScriptPattern.test(article.text || "");
-            const normalized = isArabic
-                ? normalizeArabic(article.text)
-                : "";
+            // Dual-language sources (e.g. bilingual AR/EN PDFs like misa)
+            // carry text_ar and text_en as separate fields already split
+            // by the scraper/extraction step. Single-language sources
+            // (labor, companies, pdpl, cma, nca...) still carry one
+            // `text` field + a `language` tag, and fall back to the old
+            // binary routing.
+            const hasDualText =
+                article.text_ar !== undefined || article.text_en !== undefined;
+            let arText;
+            let enText;
+            if (hasDualText) {
+                arText = article.text_ar || "";
+                enText = article.text_en || "";
+            } else {
+                const isArabic =
+                    article.language === "ar" ||
+                    arabicScriptPattern.test(article.text || "");
+                arText = isArabic ? article.text : "";
+                enText = isArabic ? "" : article.text;
+            }
+            const normalized = arText ? normalizeArabic(arText) : "";
             const query = `
                 INSERT INTO articles (
                     document_id,
@@ -59,14 +74,24 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 documentId,
                 article.article_number?.toString() || null,
                 ordering++,
-                isArabic ? article.text : "",
-                isArabic ? "" : article.text,
+                arText,
+                enText,
                 normalized
             ];
             const result = await client.query(query, values);
             const articleId = result.rows[0].id;
-            insertedArticles.push({ articleId, text: article.text });
-            const chunks = chunkArticle(article);
+            // Cross-reference extraction and diffing always run against
+            // the Arabic (binding) text when present.
+            insertedArticles.push({ articleId, text: arText || enText });
+            // Only the Arabic text is chunked/embedded in this pipeline
+            // version (embedding_en exists in schema but is unused —
+            // see saveChunk below). text_en is stored for reference only,
+            // not chunked. Dual-text articles always chunk arText under
+            // language "ar"; single-text articles keep the exact same
+            // chunkArticle(article) call/behavior as before this change.
+            const chunks = hasDualText
+                ? chunkArticle({ text: arText, language: "ar" })
+                : chunkArticle(article);
             for (const chunk of chunks) {
                 pendingChunks.push({
                     articleId,
@@ -77,7 +102,6 @@ async function saveArticles(documentId, articles, externalClient = null) {
                 });
             }
         }
-
         // Batched embedding call(s) for every chunk in this document.
         if (pendingChunks.length > 0) {
             const embeddings = await generateEmbeddings(

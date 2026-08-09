@@ -1,93 +1,104 @@
 {
-  "generated_at": "2026-08-03T12:09:35.964Z",
+  "generated_at": null,
   "sources": [
     {
       "name": "zatca_einvoicing_regulation",
       "status": "success",
       "article_count": 7,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
-      "fetched_at": "2026-08-03T12:09:22.595Z"
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing%20Regulation%20EN.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "zatca_implementation_resolution",
       "status": "success",
-      "article_count": 146,
+      "article_count": 148,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Resolution.pdf",
-      "fetched_at": "2026-08-03T12:09:24.579Z"
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Resolution.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Implementation%20Resolution%20English.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "zatca_guidelines",
       "status": "success",
       "article_count": 97,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing-Detailed-Guidelines.pdf",
-      "fetched_at": "2026-08-03T12:09:27.097Z"
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing-Detailed-Guidelines.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing_Detailed__Guideline.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "zatca_vat_agreement",
       "status": "success",
-      "article_count": 134,
+      "article_count": 71,
       "language": "ar,en",
       "source_url": "https://zatca.gov.sa/ar/RulesRegulations/Taxes/Documents/VAT%20Final%2030%20Nov%202016(updated).pdf",
-      "fetched_at": "2026-08-03T12:09:28.357Z"
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "labor",
       "status": "success",
-      "article_count": 158,
+      "article_count": 188,
       "language": "ar",
       "source_url": "https://www.hrsd.gov.sa/sites/default/files/2025-02/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B9%D9%85%D9%84.pdf",
-      "fetched_at": "2026-08-03T12:09:29.855Z"
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "companies",
       "status": "success",
-      "article_count": 42,
+      "article_count": 281,
       "language": "ar",
       "source_url": "https://qadha.org.sa/files/3/%D9%83%D8%AA%D8%A8%20%D9%82%D8%B6%D8%A7%D8%A1/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA%20%D9%88%D9%84%D9%88%D8%A7%D8%A6%D8%AD%D9%87%20%D8%A7%D9%84%D8%AA%D9%86%D9%81%D9%8A%D8%B0%D9%8A%D8%A9.pdf",
-      "fetched_at": "2026-08-03T12:09:32.795Z"
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "pdpl",
       "status": "success",
-      "article_count": 49,
-      "language": "unknown",
-      "source_url": "./input/pdpl.pdf",
-      "fetched_at": "2026-08-03T12:09:32.927Z"
+      "article_count": 15,
+      "language": "ar",
+      "source_url": "https://sdaia.gov.sa/ar/SDAIA/about/Documents/PersonalData.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "sama",
       "status": "success",
-      "article_count": 51,
-      "language": "ar",
-      "source_url": "./input/sama_banking.pdf",
-      "fetched_at": "2026-08-03T12:09:33.164Z"
+      "article_count": 26,
+      "language": "ar,en",
+      "source_url": "https://www.sama.gov.sa/ar-sa/Laws/BankingRules/%D9%86%D8%B8%D8%A7%D9%85%20%D9%85%D8%B1%D8%A7%D9%82%D8%A8%D8%A9%20%D8%A7%D9%84%D8%A8%D9%86%D9%88%D9%83.pdf | https://www.sama.gov.sa/ar-sa/Documents/SCB_ar.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "cma",
       "status": "success",
-      "article_count": 8,
+      "article_count": 55,
       "language": "ar",
       "source_url": "https://cma.gov.sa/RulesRegulations/CMALaw/Documents/CMA_Law.pdf",
-      "fetched_at": "2026-08-03T12:09:33.845Z"
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "nca",
       "status": "success",
       "article_count": 87,
       "language": "ar",
-      "source_url": "https://nca.gov.sa/ecc-ar.pdf",
-      "fetched_at": "2026-08-03T12:09:35.375Z"
+      "source_url": "https://nca.gov.sa/ecc-ar.pdf | https://nca.gov.sa/ccc-ar.pdf",
+      "fetched_at": null,
+      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
     },
     {
       "name": "misa",
       "status": "success",
-      "article_count": 30,
-      "language": "en",
-      "source_url": "https://misa.gov.sa/app/uploads/2025/07/Investment-Law.pdf",
-      "fetched_at": "2026-08-03T12:09:35.964Z"
+      "article_count": 16,
+      "language": "ar,en",
+      "source_url": "https://misa.gov.sa/app/uploads/2024/08/Investment-Law.pdf",
+      "fetched_at": null,
+      "note": "16/16 articles, re-extracted directly from the real bilingual PDF (uploaded by user) via pdf-parse, not the chat-pasted text. Each article now stores BOTH text_ar (Arabic, binding, chunked/embedded) and text_en (English, reference only, not embedded — embedding_en column unused in this pipeline version). Token-level language split, same method as before: drop pure-Latin tokens for text_ar, drop pure-Arabic-script tokens for text_en. Known remaining noise: PDF font-glyph substitution artifacts (e.g. stray Ņ/ł/Ĝ/Î glyphs) untouched, same caveat as other sources; a few words of the next article title sometimes leak onto the end of the previous article text due to interleaved page-header rendering in the source PDF (boundary-only, does not affect article completeness)."
     }
   ]
 }

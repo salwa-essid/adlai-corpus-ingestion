@@ -96,17 +96,14 @@ async function searchHybrid(embedding, normalizedQueryText, limit = 5, candidate
         ORDER BY score DESC
             LIMIT $4;
     `;
-
     const { rows } = await pool.query(query, [
         embedding,
         normalizedQueryText,
         candidatePoolSize,
         limit
     ]);
-
     return rows;
 }
-
 module.exports = {
     searchByEmbedding,
     searchHybrid

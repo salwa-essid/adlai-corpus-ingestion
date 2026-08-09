@@ -15,7 +15,6 @@ test.before(async () => {
         );
         return { ok: true, status: 200, json: async () => ({ embeddings }) };
     };
-
     pool = require(path.join(originalCwd, "src/config/database"));
     try {
         await pool.query("SELECT 1");
@@ -24,7 +23,6 @@ test.before(async () => {
         dbAvailable = false;
     }
 });
-
 test.after(async () => {
     if (dbAvailable) {
         // Only articles.id -> article_chunks/cross_references cascade
@@ -108,7 +106,6 @@ test("ingestion pipeline: fixture end-to-end (row counts, chunk counts, cross-re
     );
     assert.equal(run.rows[0].articles_created, 3);
 });
-
 test("ingestion pipeline: re-running on unchanged fixture is a no-op (idempotency, spec 6.3)", async (t) => {
     if (!dbAvailable) {
         t.skip("Postgres not reachable");

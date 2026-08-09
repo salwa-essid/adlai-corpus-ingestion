@@ -22,7 +22,6 @@ async function saveSnapshot(snapshot) {
     const { rows } = await pool.query(query, values);
     return rows[0].id;
 }
-
 module.exports = {
     saveSnapshot
 };

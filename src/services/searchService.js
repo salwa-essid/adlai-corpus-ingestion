@@ -35,7 +35,6 @@ async function search(query, limit = 5) {
     });
     return results;
 }
-
 module.exports = {
     search
 };

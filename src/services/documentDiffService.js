@@ -1,11 +1,18 @@
+// Dual-language articles (text_ar + text_en) carry no single `text`
+// field. Compare on the Arabic (binding) text, same as articleRepository
+// does when inserting — falls back to text_en, then plain text.
+function getComparableText(article) {
+    return article.text_ar || article.text_en || article.text || "";
+}
+
 function buildDocumentDiff(oldArticles, newArticles) {
     const oldMap = new Map();
     const newMap = new Map();
     for (const article of oldArticles) {
-        oldMap.set(article.article_number?.toString(), article.text);
+        oldMap.set(article.article_number?.toString(), getComparableText(article));
     }
     for (const article of newArticles) {
-        newMap.set(article.article_number?.toString(), article.text);
+        newMap.set(article.article_number?.toString(), getComparableText(article));
     }
     const added = [];
     const updated = [];
@@ -21,7 +28,7 @@ function buildDocumentDiff(oldArticles, newArticles) {
             continue;
         }
 
-        if (previous !== article.text) {
+        if (previous !== getComparableText(article)) {
             updated.push({
                 article_number: articleNumber,
                 change: "content_changed"
@@ -29,7 +36,6 @@ function buildDocumentDiff(oldArticles, newArticles) {
         }
 
     }
-
     // Removed
     for (const article of oldArticles) {
         const articleNumber = article.article_number?.toString();
@@ -39,14 +45,12 @@ function buildDocumentDiff(oldArticles, newArticles) {
             });
         }
     }
-
     return {
         added_articles: added,
         updated_articles: updated,
         removed_articles: removed
     };
 }
-
 module.exports = {
     buildDocumentDiff
 };

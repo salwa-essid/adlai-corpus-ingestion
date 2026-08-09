@@ -6,7 +6,11 @@ function validateArticles(sourceName, articles) {
         throw new Error(`${sourceName}: No articles found.`)
     }
     const firstArticle = articles[0];
-    if (!firstArticle.text) {
+    // Dual-language articles (text_ar + text_en) carry no single `text`
+    // field — accept those too, as long as at least one side has content.
+    const firstArticleText =
+        firstArticle.text || firstArticle.text_ar || firstArticle.text_en;
+    if (!firstArticleText) {
         throw new Error(`${sourceName}: First article has no text.`)
     }
     const forbiddenWords = [
@@ -15,7 +19,7 @@ function validateArticles(sourceName, articles) {
         "cookies",
         "skip to content"
     ];
-    const text = firstArticle.text.toLowerCase();
+    const text = firstArticleText.toLowerCase();
     for (const word of forbiddenWords) {
         if (text.includes(word)) {
             throw new Error(

@@ -5,9 +5,7 @@ const { normalizeArabic } = require("./normalizationService");
 const { generateContentHash } = require("./hashService");
 const { createEvalRun } = require("./evalRunService");
 const logger = require("../utils/logger");
-
 const EMBEDDING_MODEL = "embed-multilingual-v3.0";
-
 // Matches spec 5.3's cross-encoder step ("...takes those 20 down to 3"),
 // but there is no cross-encoder reranker in this codebase (spec section
 // 10 / non-goal: "Semantic reranker inside Postgres — cross-encoder
@@ -19,34 +17,27 @@ const EMBEDDING_MODEL = "embed-multilingual-v3.0";
 // app-layer reranker exists so retrieval_config_hash reflects it.
 const DEFAULT_TOP_K = 3;
 const DEFAULT_CANDIDATE_POOL = 40;
-
 const RETRIEVAL_CONFIG = {
     strategy: "hybrid_dense_sparse_fusion",
     topK: DEFAULT_TOP_K,
     candidatePoolSize: DEFAULT_CANDIDATE_POOL,
     reranker: "none (app-layer reranker not implemented yet)"
 };
-
 function scoreQuestion(expectedCitations, retrievedArticleIds) {
     const expected = new Set((expectedCitations || []).map(String));
     const retrieved = retrievedArticleIds.map(String);
-
     if (expected.size === 0) {
         return { skipped: true, recall: null, precision: null, hits: 0 };
     }
-
     const retrievedSet = new Set(retrieved);
     let hits = 0;
     for (const id of expected) {
         if (retrievedSet.has(id)) hits++;
     }
-
     const recall = hits / expected.size;
     const precision = retrieved.length > 0 ? hits / retrieved.length : 0;
-
     return { skipped: false, recall, precision, hits };
 }
-
 function mean(values) {
     if (values.length === 0) return null;
     return values.reduce((a, b) => a + b, 0) / values.length;
@@ -54,7 +45,6 @@ function mean(values) {
 async function runEval(options = {}) {
     const version = options.version || "v1";
     const topK = options.topK || DEFAULT_TOP_K;
-
     const questions = await getEvalQuestionsByVersion(version);
     if (questions.length === 0) {
         throw new Error(
@@ -62,32 +52,26 @@ async function runEval(options = {}) {
             `Seed eval_questions before running the eval suite.`
         );
     }
-
     const perQuestion = [];
     const byDomain = {};
-
     for (const q of questions) {
         const queryText = q.question_ar || q.question_en || "";
         const isArabic = Boolean(q.question_ar);
         const embedding = await generateEmbedding(queryText, "search_query");
         const searchText = isArabic ? normalizeArabic(queryText) : queryText;
-
         const results = await searchHybrid(
             embedding,
             searchText,
             topK,
             DEFAULT_CANDIDATE_POOL
         );
-
         const retrievedArticleIds = results.map((r) => r.article_id);
         const score = scoreQuestion(q.expected_citations, retrievedArticleIds);
-
         perQuestion.push({
             questionId: q.id,
             domain: q.domain,
             ...score
         });
-
         if (!byDomain[q.domain]) {
             byDomain[q.domain] = { recalls: [], precisions: [], skipped: 0, total: 0 };
         }
@@ -99,7 +83,6 @@ async function runEval(options = {}) {
             byDomain[q.domain].precisions.push(score.precision);
         }
     }
-
     const scored = perQuestion.filter((p) => !p.skipped);
     const citationRecall = mean(scored.map((p) => p.recall));
     const citationPrecision = mean(scored.map((p) => p.precision));
@@ -107,7 +90,6 @@ async function runEval(options = {}) {
         citationRecall !== null && citationPrecision !== null
             ? (citationRecall + citationPrecision) / 2
             : null;
-
     const resultsSummary = {
         version,
         topK,
@@ -127,10 +109,8 @@ async function runEval(options = {}) {
         ),
         perQuestion
     };
-
     const modelConfigHash = generateContentHash({ embeddingModel: EMBEDDING_MODEL });
     const retrievalConfigHash = generateContentHash({ ...RETRIEVAL_CONFIG, topK });
-
     const evalRunId = await createEvalRun({
         evalVersion: version,
         modelConfigHash,
@@ -140,13 +120,11 @@ async function runEval(options = {}) {
         citationPrecision,
         resultsSummary
     });
-
     logger.success(
         `Eval run ${evalRunId}: recall@${topK}=${citationRecall?.toFixed(4)} ` +
         `precision@${topK}=${citationPrecision?.toFixed(4)} ` +
         `(${scored.length}/${questions.length} questions scored)`
     );
-
     return { evalRunId, citationRecall, citationPrecision, overallScore, resultsSummary };
 }
 

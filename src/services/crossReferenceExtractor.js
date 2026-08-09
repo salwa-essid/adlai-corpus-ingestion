@@ -13,7 +13,6 @@ const UNITS = {
     "التاسعة": 9,
     "العاشرة": 10
 };
-
 const TENS = {
     "العشرون": 20,
     "الثلاثون": 30,
@@ -49,33 +48,25 @@ function parseOrdinal(unitWord, hasAshara, tensWord, hundredWord) {
     if (hundredWord === "المائتين") value += 200;
     return value;
 }
-
 function isHeading(text, matchEndIndex) {
     const after = text.slice(matchEndIndex, matchEndIndex + 3).trimStart();
     return after.startsWith(":") || after.startsWith("：");
 }
-
 function extractOrdinalReferences(text) {
     if (!text) return [];
-
     const results = [];
     let match;
     REFERENCE_REGEX.lastIndex = 0;
-
     while ((match = REFERENCE_REGEX.exec(text)) !== null) {
         if (isHeading(text, match.index + match[0].length)) continue;
-
         const [, unitWord, ashara, tensWord, hundredWord] = match;
         const articleNumber = parseOrdinal(unitWord, !!ashara, tensWord, hundredWord);
-
         if (articleNumber > 0) {
             results.push({ articleNumber, matchedText: match[0] });
         }
     }
-
     return results;
 }
-
 async function extractCrossReferences(
     documentId,
     articleId,
@@ -84,11 +75,9 @@ async function extractCrossReferences(
     dbClient
 ) {
     const references = extractOrdinalReferences(articleText);
-
     for (const ref of references) {
         const target = await findArticleByNumber(documentId, ref.articleNumber);
         if (!target || target.id === articleId) continue; // skip unresolved + self
-
         await saveCrossReference({
             fromArticleId: articleId,
             toArticleId: target.id,

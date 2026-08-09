@@ -9,11 +9,9 @@ async function getSubscribedTenants(sourceId) {
         JOIN tenants t ON t.id = ts.tenant_id
         WHERE ts.source_id = $1;
     `;
-
     const { rows } = await pool.query(query, [sourceId]);
     return rows;
 }
-
 module.exports = {
     getSubscribedTenants
 };

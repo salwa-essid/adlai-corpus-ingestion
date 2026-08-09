@@ -51,7 +51,6 @@ async function getEvalQuestionsByVersion(version) {
     const { rows } = await pool.query(query, [version])
     return rows
 }
-
 module.exports = {
     saveEvalQuestion,
     getEvalQuestionsByVersion

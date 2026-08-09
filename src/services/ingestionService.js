@@ -134,7 +134,6 @@ async function runPipeline(options = {}) {
                         txClient
                     );
                 }
-
                 await saveArticles(documentId, articles, txClient);
                 await txClient.query("COMMIT");
             } catch (txError) {
@@ -143,7 +142,6 @@ async function runPipeline(options = {}) {
             } finally {
                 txClient.release();
             }
-
             console.log(`Document created: ${documentId}`);
             // --------------- DOCUMENT DIFF ----------------
             if (latestDocument) {

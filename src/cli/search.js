@@ -2,7 +2,6 @@ const pool = require("../config/database");
 const { search } = require("../services/searchService");
 
 function parseArguments() {
-
     const args = process.argv.slice(2);
     const options = {
         query: null,
@@ -47,17 +46,13 @@ async function main() {
                 console.log(`${result.chunk_text.slice(0, 150)}...`);
 
             });
-
         }
-
     } catch (error) {
-
         console.error(error);
         process.exit(1);
     } finally {
         await pool.end();
     }
-
 }
 
 main();

@@ -1,5 +1,4 @@
 const { normalizeArabic } = require("./normalizationService");
-
 /**
  * Chunking rule (spec 4.1 / 6.2):
  * - default chunk = full article
@@ -7,7 +6,6 @@ const { normalizeArabic } = require("./normalizationService");
  * - 50-token overlap between chunks
  * - never chunk across article boundaries (this function operates on
  *   one article at a time, so that's automatic)
- *
  * Implementation note: real source data (e.g. companies.json) has
  * articles with ZERO paragraph breaks at all — some "articles" are
  * actually several legal articles glued together by an upstream
@@ -48,7 +46,6 @@ function chunkArticle(article) {
             start = end - OVERLAP_TOKENS;
         }
     }
-
     return windows.map((windowTokens, i) => {
         const chunkText = windowTokens.join(" ");
         return {

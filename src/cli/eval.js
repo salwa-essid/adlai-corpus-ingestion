@@ -16,10 +16,8 @@ function parseArguments() {
     }
     return options;
 }
-
 function printDomainTable(byDomain) {
-    console.log("\nDomain            Total  Skipped  Recall   Precision");
-    console.log("----------------- -----  -------  -------  ---------");
+    console.log("\nDomain  Total  Skipped  Recall   Precision");
     for (const [domain, d] of Object.entries(byDomain)) {
         const recall = d.citationRecall !== null ? d.citationRecall.toFixed(3) : "n/a";
         const precision = d.citationPrecision !== null ? d.citationPrecision.toFixed(3) : "n/a";
@@ -29,7 +27,6 @@ function printDomainTable(byDomain) {
         );
     }
 }
-
 async function main() {
     const options = parseArguments();
     console.log(`Running eval suite: version=${options.version} topK=${options.topK}`);
@@ -53,5 +50,4 @@ async function main() {
         await pool.end();
     }
 }
-
 main();

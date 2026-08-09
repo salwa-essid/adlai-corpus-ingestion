@@ -12,7 +12,6 @@ function normalizeArabic(text = "") {
         .replace(/\s+/g, " ")
         .trim()
 }
-
 module.exports = {
     normalizeArabic
 };
