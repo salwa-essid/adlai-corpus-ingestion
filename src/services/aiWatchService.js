@@ -1,13 +1,27 @@
 require("dotenv").config();
 
 const COHERE_API_KEY = process.env.COHERE_API_KEY;
-const COHERE_CHAT_MODEL = "command-r";
+const COHERE_CHAT_MODEL = "command-a-03-2025";
+const COHERE_CHAT_URL = "https://api.cohere.com/v2/chat";
+
+const MIN_CALL_INTERVAL_MS = 3200;
+let lastCallAt = 0;
 
 if (!COHERE_API_KEY) {
     console.warn(
         "[WARN] COHERE_API_KEY not set in .env — AI Watch will fall back to " +
         "the rule-based impact summary instead of a real LLM analysis."
     );
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function throttle() {
+    const wait = lastCallAt + MIN_CALL_INTERVAL_MS - Date.now();
+    if (wait > 0) await sleep(wait);
+    lastCallAt = Date.now();
 }
 
 function ruleBasedImpact(diffSummary) {
@@ -42,7 +56,8 @@ function buildPrompt(diffSummary) {
 }
 
 async function callCohereChat(prompt, attempt = 1) {
-    const response = await fetch("https://api.cohere.com/v1/chat", {
+    await throttle();
+    const response = await fetch(COHERE_CHAT_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -50,7 +65,7 @@ async function callCohereChat(prompt, attempt = 1) {
         },
         body: JSON.stringify({
             model: COHERE_CHAT_MODEL,
-            message: prompt,
+            messages: [{ role: "user", content: prompt }],
             temperature: 0.2
         })
     });
@@ -61,7 +76,7 @@ async function callCohereChat(prompt, attempt = 1) {
             `[WARN] Cohere chat rate limit hit, retrying in ${waitMs / 1000}s ` +
             `(attempt ${attempt}/3)...`
         );
-        await new Promise((resolve) => setTimeout(resolve, waitMs));
+        await sleep(waitMs);
         return callCohereChat(prompt, attempt + 1);
     }
     if (!response.ok) {
@@ -69,7 +84,7 @@ async function callCohereChat(prompt, attempt = 1) {
         throw new Error(`Cohere chat request failed (${response.status}): ${errorBody}`);
     }
     const data = await response.json();
-    return (data.text || "").trim();
+    return (data.message?.content?.[0]?.text || "").trim();
 }
 
 async function analyzeImpact(diffSummary) {

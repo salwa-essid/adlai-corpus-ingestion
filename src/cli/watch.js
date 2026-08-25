@@ -14,7 +14,7 @@ async function main() {
         return;
     }
     for (const diff of diffs) {
-        const impact = analyzeImpact(diff.diff_summary);
+        const impact = await analyzeImpact(diff.diff_summary);
         await updateImpactAnalysis(diff.id, impact);
         const tenants = await getSubscribedTenants(diff.source_id);
         if (tenants.length === 0) {
