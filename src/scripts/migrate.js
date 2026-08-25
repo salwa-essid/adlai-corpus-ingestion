@@ -22,6 +22,7 @@ async function runMigrations() {
         for (const file of files) {
             const exists = await client.query(
                 `
+
                 SELECT 1
                 FROM schema_migrations
                 WHERE migration_name = $1
@@ -29,10 +30,10 @@ async function runMigrations() {
                 [file]
             )
             if (exists.rowCount > 0) {
-                console.log(`⏭ Skipping ${file}`)
+                console.log(`Skipping ${file}`)
                 continue
             }
-            console.log(`▶ Running ${file}`)
+            console.log(`Running ${file}`)
             const sql = await fs.readFile(
                 path.join(migrationsDir, file),
                 "utf8"
@@ -47,9 +48,9 @@ async function runMigrations() {
                 [file]
             )
             await client.query("COMMIT")
-            console.log(`✅ Applied ${file}\n`)
+            console.log(` Applied ${file}\n`)
         }
-        console.log("🎉 All migrations completed successfully.")
+        console.log("All migrations completed successfully.")
     } catch (err) {
         await client.query("ROLLBACK")
         console.error("Migration failed:")

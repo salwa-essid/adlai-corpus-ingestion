@@ -1,68 +1,61 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-08-25T09:55:30.040Z",
   "sources": [
     {
       "name": "zatca_einvoicing_regulation",
       "status": "success",
       "article_count": 7,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing%20Regulation%20EN.pdf",
-      "fetched_at": null,
-      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
+      "fetched_at": "2026-08-25T09:45:28.064Z"
     },
     {
       "name": "zatca_implementation_resolution",
       "status": "success",
-      "article_count": 154,
+      "article_count": 101,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Resolution.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Implementation%20Resolution%20English.pdf",
-      "fetched_at": null,
-      "note": "Rebuilt: recovered Arabic text for 9 operative sections + annexes from the official ZATCA Implementation Resolution PDF (previously 141/144 English chunks had no Arabic counterpart at all — a pure article-count check had masked this). Fixed the lam-alef position-swap bug (لا/ال transposition, confirmed unidirectional). 10 ar_ entries total (ar_1-ar_9 + ar_annexes), 144 en_ entries unchanged. 154/154."
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/20230519_E-Invoicing%20Resolution.pdf",
+      "fetched_at": "2026-08-25T09:45:32.566Z"
     },
     {
       "name": "zatca_guidelines",
       "status": "success",
-      "article_count": 97,
+      "article_count": 87,
       "language": "ar,en",
-      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing-Detailed-Guidelines.pdf | https://zatca.gov.sa/en/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing_Detailed__Guideline.pdf",
-      "fetched_at": null,
-      "note": "Reconstructed 7 corrupted glossary definitions (ar_2.3, ar_2.9-2.13, ar_2.18) using parallel English entries as reference; trimmed TOC-noise from ar_7.1. Known remaining gaps: TOC-bleed in ar_5.1/ar_7.5/ar_4.2, ar_6.1's flattened requirements table — not yet addressed."
+      "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-Invoicing-Detailed-Guidelines.pdf",
+      "fetched_at": "2026-08-25T09:45:37.977Z"
     },
     {
       "name": "zatca_vat_agreement",
       "status": "success",
-      "article_count": 71,
+      "article_count": 134,
       "language": "ar,en",
       "source_url": "https://zatca.gov.sa/ar/RulesRegulations/Taxes/Documents/VAT%20Final%2030%20Nov%202016(updated).pdf",
-      "fetched_at": null,
-      "note": "Full rebuild via OCR: the source PDF's embedded font has a kashida/tatweel-to-letter mapping bug causing severe text stretching (confirmed present across independent extraction tools and multiple PDF sources — not an extraction-tool artifact). OCR bypasses the broken font mapping entirely. 71/71 articles recovered from an official ZATCA-hosted copy, verified zero residual stretching."
+      "fetched_at": "2026-08-25T09:45:40.700Z"
     },
     {
       "name": "labor",
       "status": "success",
-      "article_count": 248,
+      "article_count": 64,
       "language": "ar",
       "source_url": "https://www.hrsd.gov.sa/sites/default/files/2025-02/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B9%D9%85%D9%84.pdf",
-      "fetched_at": null,
-      "note": "248/248 articles (238 substantive + 10 explicitly repealed placeholders, plus a few 'مكرر' bis additions — replaces the previous under-extraction of 188/245). Re-extracted with pdftotext. Fixed: ligature-order bugs (لأ/لإ/لآ systematically reversed to أل/إل/آل; scrambled word-final '-لاً' endings, e.g. تشغيلاً/مقبولاً), and chapter/part heading text bleeding into the tail of the preceding article. Known remaining noise: one isolated stray-diacritic artifact (cosmetic only)."
+      "fetched_at": "2026-08-25T09:45:44.972Z"
     },
     {
       "name": "companies",
       "status": "success",
-      "article_count": 281,
+      "article_count": 99,
       "language": "ar",
       "source_url": "https://qadha.org.sa/files/3/%D9%83%D8%AA%D8%A8%20%D9%82%D8%B6%D8%A7%D8%A1/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA%20%D9%88%D9%84%D9%88%D8%A7%D8%A6%D8%AD%D9%87%20%D8%A7%D9%84%D8%AA%D9%86%D9%81%D9%8A%D8%B0%D9%8A%D8%A9.pdf",
-      "fetched_at": null,
-      "note": "Regenerated locally from previously-fetched raw PDF text using the v7 parser (tatweel/ligature/hundred-ordinal/TOC-truncation fixes) — not a fresh live crawl."
+      "fetched_at": "2026-08-25T09:45:54.685Z"
     },
     {
       "name": "pdpl",
       "status": "success",
       "article_count": 43,
       "language": "ar",
-      "source_url": "https://sdaia.gov.sa/ar/SDAIA/about/Documents/PersonalData.pdf",
-      "fetched_at": null,
-      "note": "Fixed 2 scrambled-clause-order instances (Article 1 definitions intro, Article 29 transfer-purposes list) via pure word reorder, using standard legal boilerplate phrasing as reference. 43/43."
+      "source_url": "./input/pdpl.pdf",
+      "fetched_at": "2026-08-25T09:45:54.688Z"
     },
     {
       "name": "sama_banking_control_law",
@@ -85,20 +78,18 @@
     {
       "name": "cma",
       "status": "success",
-      "article_count": 67,
+      "article_count": 66,
       "language": "ar",
       "source_url": "https://cma.gov.sa/RulesRegulations/CMALaw/Documents/CMA_Law.pdf",
-      "fetched_at": null,
-      "note": "Rebuilt from a clean backup + 8-codepoint ligature-glyph fix (لأ/لإ/لآ garbage-codepoint mapping), removed 27 page-header-bleed occurrences, split a merged article block (40-49), and added Articles 1-2 (previously entirely missing) from a supplementary official source PDF. 67/67 (was 55)."
+      "fetched_at": "2026-08-25T09:46:00.298Z"
     },
     {
       "name": "nca",
       "status": "success",
-      "article_count": 87,
+      "article_count": 86,
       "language": "ar",
-      "source_url": "https://nca.gov.sa/ecc-ar.pdf | https://nca.gov.sa/ccc-ar.pdf",
-      "fetched_at": null,
-      "note": "Stripped decorative/non-substantive corrupted fragments (classification banners, TOC noise) confirmed via full-document analysis to be confined to short (≤80 char) lines and unrecoverable; substantive prose content verified intact. 87/87."
+      "source_url": "https://nca.gov.sa/ecc-ar.pdf",
+      "fetched_at": "2026-08-25T09:46:07.185Z"
     },
     {
       "name": "misa",
@@ -108,6 +99,14 @@
       "source_url": "https://misa.gov.sa/app/uploads/2024/08/Investment-Law.pdf",
       "fetched_at": null,
       "note": "16/16 articles, re-extracted with pdftotext + line-level AR/EN classification (fixes a token-level bug in the previous pdf-parse version where English words with trailing punctuation, e.g. 'Law,'/'Article:', leaked into text_ar in all 16 articles). Tatweel stripped; a few isolated dropped-letter spots fixed (e.g. التعريفات, الوزارة). Known remaining noise: minor letter-spacing within words from the source PDF's justified-text rendering (cosmetic, does not affect meaning or searchability materially)."
+    },
+    {
+      "name": "sama",
+      "status": "success",
+      "article_count": 10,
+      "language": "ar",
+      "source_url": "https://www.sama.gov.sa/ar-sa/Documents/SCB_ar.pdf",
+      "fetched_at": "2026-08-25T09:45:56.546Z"
     }
   ]
 }

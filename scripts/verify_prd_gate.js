@@ -48,7 +48,6 @@ async function main() {
     const client = buildClient();
     await client.connect();
     console.log('✅ Connected to database\n');
-
     // --- 1. per-domain counts (Section 8.1's "COUNT(*) GROUP BY law_type") ---
     console.log('--- Section 8.1: article counts per mandatory domain ---');
     const missing = [];
@@ -72,7 +71,6 @@ async function main() {
         console.log(d.law_type, '-> TOTAL:', total);
     }
     console.log('');
-
     // --- 2. embeddings populated (active documents only) ----------------------
     const embRes = await client.query(
         `SELECT COUNT(*) AS total,
@@ -90,7 +88,6 @@ async function main() {
         '| (total incl. stale superseded chunks in table:', embAllRes.rows[0].total, ')');
     const emptyEmbeddings = Number(embRes.rows[0].total) > 0 && Number(embRes.rows[0].with_ar) === 0;
     console.log('');
-
     // --- 3. source_snapshots (SHA-256 archive requirement) --------------------
     const snapRes = await client.query(`SELECT COUNT(*) AS total FROM source_snapshots`);
     console.log('--- source_snapshots (SHA-256 archive) ---');
@@ -99,7 +96,6 @@ async function main() {
         console.log('⚠️  Table exists but is EMPTY — sources are not being archived on ingest, per Section 3.4 requirement.');
     }
     console.log('');
-
     // --- 4. cross_references ----------------------------------------------------
     const crossRes = await client.query(`SELECT COUNT(*) AS total FROM cross_references`);
     console.log('--- cross_references ---');
@@ -108,7 +104,6 @@ async function main() {
         console.log('⚠️  Table exists but is EMPTY — cross-reference extraction (Section 3.4) has not run yet.');
     }
     console.log('');
-
     // --- 5. ingestion_runs (idempotency + logging) -----------------------------
     const runsRes = await client.query(
         `SELECT s.slug, COUNT(ir.id) AS run_count,

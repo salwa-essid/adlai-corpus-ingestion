@@ -12,7 +12,6 @@ function stripHeading(text) {
     const colonIndex = text.indexOf(":");
     return colonIndex === -1 ? text : text.slice(colonIndex + 1).trim();
 }
-
 const SOURCES = [
     { code: "LABOR_LAW", domain: "labor" },
     { code: "COMPANIES_LAW", domain: "companies" },
