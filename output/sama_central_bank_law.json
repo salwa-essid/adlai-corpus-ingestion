@@ -1,6 +1,6 @@
 [
   {
-    "article_number": "1",
+    "article_number": 1,
     "article_label": "األولى",
     "article_type": "article",
     "language": "ar",
@@ -9,7 +9,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "2",
+    "article_number": 2,
     "article_label": "الثانية",
     "article_type": "article",
     "language": "ar",
@@ -18,7 +18,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "3",
+    "article_number": 3,
     "article_label": "الثالثة",
     "article_type": "article",
     "language": "ar",
@@ -27,7 +27,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "4",
+    "article_number": 4,
     "article_label": "الرابعة",
     "article_type": "article",
     "language": "ar",
@@ -36,7 +36,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "5",
+    "article_number": 5,
     "article_label": "الخامسة",
     "article_type": "article",
     "language": "ar",
@@ -45,7 +45,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "6",
+    "article_number": 6,
     "article_label": "السادسة",
     "article_type": "article",
     "language": "ar",
@@ -54,7 +54,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "7",
+    "article_number": 7,
     "article_label": "السابعة",
     "article_type": "article",
     "language": "ar",
@@ -63,7 +63,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "8",
+    "article_number": 8,
     "article_label": "الثامنة",
     "article_type": "article",
     "language": "ar",
@@ -72,7 +72,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "9",
+    "article_number": 9,
     "article_label": "التاسعة",
     "article_type": "article",
     "language": "ar",
@@ -81,7 +81,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "10",
+    "article_number": 10,
     "article_label": "العاشرة",
     "article_type": "article",
     "language": "ar",
@@ -90,7 +90,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "11",
+    "article_number": 11,
     "article_label": "الحادية عشرة",
     "article_type": "article",
     "language": "ar",
@@ -99,7 +99,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "12",
+    "article_number": 12,
     "article_label": "الثانية عشرة",
     "article_type": "article",
     "language": "ar",
@@ -108,7 +108,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "13",
+    "article_number": 13,
     "article_label": "الثالثة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -117,7 +117,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "14",
+    "article_number": 14,
     "article_label": "الرابعة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -126,7 +126,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "15",
+    "article_number": 15,
     "article_label": "الخامسة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -135,7 +135,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "16",
+    "article_number": 16,
     "article_label": "السادسة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -144,7 +144,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "17",
+    "article_number": 17,
     "article_label": "السابعة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -153,7 +153,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "18",
+    "article_number": 18,
     "article_label": "الثامنة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -162,7 +162,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "19",
+    "article_number": 19,
     "article_label": "التاسعة عشرة",
     "article_type": "article",
     "language": "ar",
@@ -171,7 +171,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "20",
+    "article_number": 20,
     "article_label": "العشرون",
     "article_type": "article",
     "language": "ar",
@@ -180,7 +180,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "21",
+    "article_number": 21,
     "article_label": "الحادية والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -189,7 +189,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "22",
+    "article_number": 22,
     "article_label": "الثانية والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -198,7 +198,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "23",
+    "article_number": 23,
     "article_label": "الثالثة والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -207,7 +207,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "24",
+    "article_number": 24,
     "article_label": "الرابعة والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -216,7 +216,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "25",
+    "article_number": 25,
     "article_label": "الخامسة والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -225,7 +225,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "26",
+    "article_number": 26,
     "article_label": "السادسة والعشرون",
     "article_type": "article",
     "language": "ar",
@@ -234,7 +234,7 @@
     "fetched_at": null
   },
   {
-    "article_number": "27",
+    "article_number": 27,
     "article_label": "السابعة والعشرون",
     "article_type": "article",
     "language": "ar",
