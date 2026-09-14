@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gitlab.goavisa.com/adlai/adlai-corpus-ingestion/data/corpus/schema.json",
+  "title": "ADLAI corpus export contract (STORY-100)",
+  "description": "Contract for the JSON files this repo exports under output/<slug>.json. Validated by scripts/lint_corpus_contract.js (npm run lint:corpus). NOTE: `law_type` is intentionally NOT a per-entry field here — it is derived from the filename via the DOMAIN_MAP in scripts/lint_corpus_contract.js (the same 8 law_type -> slug(s) grouping already used by scripts/verify_prd_gate.js), because adding a redundant field to every one of the ~1000+ existing entries would duplicate information the filename already carries. If a per-entry law_type field is genuinely needed downstream (e.g. by ADLAI's importer), that's a decision to make with Alex, not something to bolt on silently here.",
+  "type": "array",
+  "minItems": 1,
+  "items": { "$ref": "#/$defs/corpusEntry" },
+  "$defs": {
+    "corpusEntry": {
+      "type": "object",
+      "required": ["article_number", "language", "source_url", "chunk_hash"],
+      "properties": {
+        "article_number": {
+          "description": "Integer (or integer.5 for an inserted 'mکرر' article, e.g. CMA's 20.5) article number, or null for documents with no legal article numbering (e.g. NCA's ECC/CCC controls, which use section_ref instead).",
+          "type": ["number", "null"]
+        },
+        "section_ref": {
+          "description": "Hierarchical citable reference for non-article documents (e.g. 'ecc:1-1-1', 'ccc:1-1-م-1-1'). Required and must be non-empty whenever article_number is null (see the if/then below) -- this is the STORY-100 Phase 2 rule: 'no null article numbers without a populated section_ref'.",
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text_ar": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text_en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chunk_hash": {
+          "description": "SHA-256 of the entry's primary text (text, or text_ar if there is no single text field), truncated to the first 16 hex characters.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{16}$"
+        },
+        "language": {
+          "description": "'ar' or 'en' for single-language entries; 'ar,en' for entries carrying both text_ar and text_en (misa, sama_banking_control_law).",
+          "type": "string",
+          "pattern": "^(ar|en)(,(ar|en))?$"
+        },
+        "article_type": { "type": "string" },
+        "article_label": { "type": "string" },
+        "global_index": { "type": "integer" },
+        "source_doc": { "type": "string" },
+        "source_url": {
+          "description": "Some real source URLs (labor.json, sama_*) contain raw (non-percent-encoded) Arabic characters copied straight from a browser address bar. ajv-formats' 'uri' format enforces strict RFC 3986 (would reject those as invalid), and it has no 'iri' format to fall back on -- so this just checks for an http(s):// scheme instead of using a format keyword.",
+          "type": "string",
+          "pattern": "^https?://\\S+$"
+        },
+        "fetched_at": {
+          "description": "Not required: null/absent for misa, sama_banking_control_law, sama_central_bank_law today -- a real, pre-existing gap (see lint output), not something this schema should paper over by inventing a timestamp.",
+          "type": ["string", "null"]
+        }
+      },
+      "anyOf": [
+        { "required": ["text"] },
+        { "required": ["text_ar"] }
+      ],
+      "if": {
+        "properties": { "article_number": { "const": null } },
+        "required": ["article_number"]
+      },
+      "then": {
+        "required": ["section_ref"],
+        "properties": {
+          "section_ref": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

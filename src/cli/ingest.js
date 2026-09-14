@@ -21,6 +21,7 @@ function parseArguments() {
         }
     }
     return options;
+
 }
 async function main() {
     try {

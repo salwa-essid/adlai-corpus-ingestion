@@ -14,3 +14,6 @@ const { fetchMisaPdf, MISA_URL } = require("../src/services/misaFetcher");
         process.exit(1);
     }
 })();
+
+
+

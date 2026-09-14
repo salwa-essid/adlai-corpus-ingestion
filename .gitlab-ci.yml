@@ -1,0 +1,73 @@
+# STORY-100 Phase 1: "Configure GitLab CI runner for Node.js + Playwright +
+# pgvector container." This runs on any GitLab Runner that can pull Docker
+# images (the default shared/docker-executor setup) -- no extra runner
+# configuration needed beyond that.
+#
+# Three jobs:
+#   1. lint:corpus-contract - fast, no DB - the new STORY-100 Phase 2 gate
+#      (data/corpus/schema.json via scripts/lint_corpus_contract.js).
+#   2. unit-tests           - `npm test` with no services. Per the README,
+#      the integration suite self-skips when Postgres isn't reachable, so
+#      this job mainly proves the unit tests (and the self-skip logic
+#      itself) work.
+#   3. integration-tests    - `npm test` again, this time against a real
+#      pgvector/pgvector:pg17 service container (matches docker-compose.yml)
+#      so the integration suite actually runs instead of skipping.
+#      `allow_failure: true` for now -- this is the first time this suite
+#      has run in CI rather than only against Salwa's local Postgres, and a
+#      new CI-specific failure shouldn't block every push while that gets
+#      shaken out. Flip to `false` once it's been green for a while.
+
+stages:
+  - lint
+  - test
+
+variables:
+  PLAYWRIGHT_BROWSERS_PATH: "$CI_PROJECT_DIR/.cache/ms-playwright"
+
+.node_base:
+  image: node:20
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+      - .cache/ms-playwright/
+  before_script:
+    - npm ci
+
+lint:corpus-contract:
+  extends: .node_base
+  stage: lint
+  script:
+    - npm run lint:corpus
+
+unit-tests:
+  extends: .node_base
+  stage: test
+  script:
+    - npm test
+
+integration-tests:
+  extends: .node_base
+  stage: test
+  allow_failure: true
+  services:
+    - name: pgvector/pgvector:pg17
+      alias: postgres
+  variables:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: salwa123
+    POSTGRES_DB: adlai
+    DB_HOST: postgres
+    DB_PORT: "5432"
+    DB_USER: postgres
+    DB_PASSWORD: salwa123
+    DB_NAME: adlai
+  before_script:
+    - npm ci
+    - npx playwright install --with-deps chromium
+    - npm run migrate
+  script:
+    - npm test

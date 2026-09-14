@@ -7,7 +7,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
-    "global_index": 1
+    "global_index": 1,
+    "chunk_hash": "1f0b468f4e431c39"
   },
   {
     "article_number": 2,
@@ -17,7 +18,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
-    "global_index": 2
+    "global_index": 2,
+    "chunk_hash": "ed12728f0947827d"
   },
   {
     "article_number": 3,
@@ -27,7 +29,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
-    "global_index": 3
+    "global_index": 3,
+    "chunk_hash": "24e1fb8300473ec7"
   },
   {
     "article_number": 4,
@@ -37,7 +40,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
-    "global_index": 4
+    "global_index": 4,
+    "chunk_hash": "967df2427da9f658"
   },
   {
     "article_number": 5,
@@ -47,7 +51,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
-    "global_index": 5
+    "global_index": 5,
+    "chunk_hash": "a871444d7e5402b9"
   },
   {
     "article_number": 6,
@@ -57,7 +62,8 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
-    "global_index": 6
+    "global_index": 6,
+    "chunk_hash": "51a34542497d1c5b"
   },
   {
     "article_number": 7,
@@ -67,6 +73,7 @@
     "source_url": "https://zatca.gov.sa/ar/E-Invoicing/Introduction/LawsAndRegulations/Documents/E-invoicing-Regulations.pdf",
     "fetched_at": "2026-08-25T09:45:27.156Z",
     "source_doc": "ar",
-    "global_index": 7
+    "global_index": 7,
+    "chunk_hash": "524351e341404614"
   }
 ]

@@ -11,12 +11,16 @@
     "watch": "node src/cli/watch.js",
     "eval": "node src/cli/eval.js",
     "test": "node --test",
-    "search": "node src/cli/search.js"
+    "search": "node src/cli/search.js",
+    "lint:corpus": "node scripts/lint_corpus_contract.js",
+    "verify:prd-gate": "node scripts/verify_prd_gate.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "dotenv": "^17.4.2",
     "pdfjs-dist": "^6.2.108",
     "pg": "^8.22.0",
