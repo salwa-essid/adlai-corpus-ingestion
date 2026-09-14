@@ -13,10 +13,21 @@
 #   3. integration-tests    - `npm test` again, this time against a real
 #      pgvector/pgvector:pg17 service container (matches docker-compose.yml)
 #      so the integration suite actually runs instead of skipping.
-#      `allow_failure: true` for now -- this is the first time this suite
-#      has run in CI rather than only against Salwa's local Postgres, and a
-#      new CI-specific failure shouldn't block every push while that gets
-#      shaken out. Flip to `false` once it's been green for a while.
+#
+#      IMPORTANT: `npm run migrate` connects as the `postgres` superuser
+#      (needed to run DDL, including migration 013's `CREATE ROLE`), but
+#      the actual `npm test` step must connect as the non-superuser
+#      `adlai_app` role migration 013 creates. src/migrations/012's own
+#      comment explains why: Postgres superusers (and, even with FORCE
+#      ROW LEVEL SECURITY, the table owner) bypass Row-Level Security
+#      unconditionally. Running tests as `postgres` doesn't just weaken
+#      the RLS check -- it silently disables it, so
+#      test/integration/attorneyReviewRepository.test.js's tenant
+#      isolation assertion looked like a real cross-tenant data leak
+#      the first time this ran in CI. It wasn't a real bug: it was this
+#      file connecting as the wrong role. Confirmed by reading
+#      migrations 012/013 and src/config/database.js (which just uses
+#      whatever DB_USER/DB_PASSWORD it's given, no override).
 
 stages:
   - lint
@@ -52,22 +63,27 @@ unit-tests:
 integration-tests:
   extends: .node_base
   stage: test
+  # Keep this on for now -- first real run of this suite in CI (it was
+  # only ever run locally, or self-skipped without a DB, before this).
+  # Flip to false once it's been green for a while.
   allow_failure: true
   services:
     - name: pgvector/pgvector:pg17
       alias: postgres
   variables:
+    # Superuser creds -- used only for `npm run migrate` below (DDL,
+    # including migration 013's `CREATE ROLE adlai_app`).
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: salwa123
     POSTGRES_DB: adlai
     DB_HOST: postgres
     DB_PORT: "5432"
-    DB_USER: postgres
-    DB_PASSWORD: salwa123
     DB_NAME: adlai
   before_script:
     - npm ci
     - npx playwright install --with-deps chromium
-    - npm run migrate
+    - DB_USER=postgres DB_PASSWORD=salwa123 npm run migrate
   script:
-    - npm test
+    # Non-superuser app role from migration 013 -- required for RLS to
+    # actually apply (see the note above the job name).
+    - DB_USER=adlai_app DB_PASSWORD=adlai123 npm test
