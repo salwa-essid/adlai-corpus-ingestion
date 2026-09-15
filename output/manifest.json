@@ -99,14 +99,6 @@
       "source_url": "https://misa.gov.sa/app/uploads/2024/08/Investment-Law.pdf",
       "fetched_at": null,
       "note": "16/16 articles, re-extracted with pdftotext + line-level AR/EN classification (fixes a token-level bug in the previous pdf-parse version where English words with trailing punctuation, e.g. 'Law,'/'Article:', leaked into text_ar in all 16 articles). Tatweel stripped; a few isolated dropped-letter spots fixed (e.g. التعريفات, الوزارة). Known remaining noise: minor letter-spacing within words from the source PDF's justified-text rendering (cosmetic, does not affect meaning or searchability materially)."
-    },
-    {
-      "name": "sama",
-      "status": "success",
-      "article_count": 10,
-      "language": "ar",
-      "source_url": "https://www.sama.gov.sa/ar-sa/Documents/SCB_ar.pdf",
-      "fetched_at": "2026-08-25T09:45:56.546Z"
     }
   ]
 }
