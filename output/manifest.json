@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T09:12:03.218Z",
+  "generated_at": "2026-09-16T10:27:08.664Z",
   "sources": [
     {
       "name": "cma",
@@ -22,11 +22,11 @@
     {
       "name": "labor",
       "status": "success",
-      "article_count": 65,
+      "article_count": 250,
       "language": "ar",
       "law_type": "LABOR",
-      "source_url": "https://manielaw-sa.com/wp-content/uploads/2025/02/نظام-العمل-بعد-التعديلات-الجديدة.pdf",
-      "fetched_at": "2026-08-25T09:45:44.941Z"
+      "source_url": "https://www.hrsd.gov.sa/sites/default/files/2025-02/%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B9%D9%85%D9%84.pdf",
+      "fetched_at": "2026-09-16T00:00:00.000Z"
     },
     {
       "name": "misa",
