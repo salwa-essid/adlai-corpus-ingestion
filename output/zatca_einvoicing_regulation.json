@@ -8,7 +8,6 @@
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
     "global_index": 1,
-    "chunk_hash": "1f0b468f4e431c39",
     "law_type": "ZATCA"
   },
   {
@@ -20,7 +19,6 @@
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
     "global_index": 2,
-    "chunk_hash": "ed12728f0947827d",
     "law_type": "ZATCA"
   },
   {
@@ -32,7 +30,6 @@
     "fetched_at": "2026-08-25T09:45:27.154Z",
     "source_doc": "ar",
     "global_index": 3,
-    "chunk_hash": "24e1fb8300473ec7",
     "law_type": "ZATCA"
   },
   {
@@ -44,7 +41,6 @@
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
     "global_index": 4,
-    "chunk_hash": "967df2427da9f658",
     "law_type": "ZATCA"
   },
   {
@@ -56,7 +52,6 @@
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
     "global_index": 5,
-    "chunk_hash": "a871444d7e5402b9",
     "law_type": "ZATCA"
   },
   {
@@ -68,7 +63,6 @@
     "fetched_at": "2026-08-25T09:45:27.155Z",
     "source_doc": "ar",
     "global_index": 6,
-    "chunk_hash": "51a34542497d1c5b",
     "law_type": "ZATCA"
   },
   {
@@ -80,7 +74,6 @@
     "fetched_at": "2026-08-25T09:45:27.156Z",
     "source_doc": "ar",
     "global_index": 7,
-    "chunk_hash": "524351e341404614",
     "law_type": "ZATCA"
   }
 ]

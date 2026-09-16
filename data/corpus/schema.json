@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://gitlab.goavisa.com/adlai/adlai-corpus-ingestion/data/corpus/schema.json",
   "title": "ADLAI corpus export contract (STORY-100)",
-  "description": "Contract for the JSON files this repo exports under output/<slug>.json. Validated by scripts/lint_corpus_contract.js (npm run lint:corpus). `law_type` is now a real per-entry field (added 2026-09), stamped from the same 8 law_type -> slug(s) DOMAIN_MAP already used by scripts/verify_prd_gate.js -- previously derived from the filename only, but ADLAI's contract of record requires it present on every record, so it's now written into the data itself and required below.",
+  "description": "Contract for the JSON files this repo exports under output/<slug>.json. Validated by scripts/lint_corpus_contract.js (npm run lint:corpus). `law_type` is now a real per-entry field (added 2026-09), stamped from the same 8 law_type -> slug(s) DOMAIN_MAP already used by scripts/verify_prd_gate.js -- previously derived from the filename only, but ADLAI's contract of record requires it present on every record, so it's now written into the data itself and required below. `chunk_hash` (2026-09): per the release contract, this is tracked internally only and must NOT appear in the exported release files -- removed from every output/*.json record and now explicitly disallowed here (see the `not` clause below), settling the earlier back-and-forth over whether it was required or forbidden.",
   "type": "array",
   "minItems": 1,
   "items": { "$ref": "#/$defs/corpusEntry" },
   "$defs": {
     "corpusEntry": {
       "type": "object",
-      "required": ["article_number", "language", "source_url", "chunk_hash", "law_type"],
+      "required": ["article_number", "language", "source_url", "law_type"],
       "properties": {
         "law_type": {
           "description": "One of the 8 domain groupings (ZATCA, PDPL, SAMA, CMA, NCA, MISA, COMPANIES, LABOR) -- see DOMAIN_MAP in scripts/lint_corpus_contract.js.",
@@ -36,11 +36,6 @@
         "text_en": {
           "type": "string",
           "minLength": 1
-        },
-        "chunk_hash": {
-          "description": "SHA-256 of the entry's primary text (text, or text_ar if there is no single text field), truncated to the first 16 hex characters.",
-          "type": "string",
-          "pattern": "^[0-9a-f]{16}$"
         },
         "language": {
           "description": "'ar' or 'en'. Combined 'ar,en' bilingual entries (misa, sama_banking_control_law) were split into two single-language records each in 2026-09, per ADLAI's request for one encoding across the export -- no longer a valid value here, so it's no longer accepted.",
@@ -75,7 +70,10 @@
           "section_ref": { "type": "string", "minLength": 1 }
         }
       },
-      "additionalProperties": true
+      "additionalProperties": true,
+      "not": {
+        "required": ["chunk_hash"]
+      }
     }
   }
 }
