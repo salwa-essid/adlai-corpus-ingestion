@@ -36,6 +36,11 @@ const SCHEMA_PATH = path.join(REPO_ROOT, "data", "corpus", "schema.json");
 // on the DB-facing script -- it only touches files, never Postgres.
 // If this list and verify_prd_gate.js's ever drift apart, that's a bug;
 // there are only 8, so keeping them in sync by eye is cheap.
+//
+// Used two ways now: to report a friendlier label next to each file below,
+// and (since 2026-09) to cross-check that the literal `law_type` field
+// schema.json now requires on every entry actually matches the file it's
+// sitting in -- see the per-entry check in the loop below.
 const DOMAIN_MAP = {
   ZATCA: ["zatca_einvoicing_regulation", "zatca_implementation_resolution", "zatca_guidelines", "zatca_vat_agreement"],
   PDPL: ["pdpl"],
@@ -104,24 +109,46 @@ function main() {
       continue;
     }
 
-    const valid = validate(data);
+    let valid = validate(data);
+    const schemaErrors = valid ? [] : [...validate.errors];
     const entries = Array.isArray(data) ? data.length : 0;
+
+    // Cross-check: the literal law_type field on every entry should match
+    // the file it's sitting in (per DOMAIN_MAP). Schema validation alone
+    // only confirms it's one of the 8 known values -- not that it's the
+    // *right* one for this file.
+    const lawTypeMismatches = [];
+    if (lawType && Array.isArray(data)) {
+      data.forEach((entry, idx) => {
+        if (entry && entry.law_type && entry.law_type !== lawType) {
+          lawTypeMismatches.push({ idx, found: entry.law_type });
+        }
+      });
+    }
+    if (lawTypeMismatches.length > 0) valid = false;
 
     if (valid) {
       console.log(`✅ ${file} (${lawType || "UNKNOWN law_type"}): ${entries} entries, contract OK`);
       summary.push({ file, ok: true, entries });
     } else {
       anyFailed = true;
-      console.error(`❌ ${file} (${lawType || "UNKNOWN law_type"}): ${entries} entries, ${validate.errors.length} violation(s)`);
-      const shown = validate.errors.slice(0, 10);
+      const violationCount = schemaErrors.length + lawTypeMismatches.length;
+      console.error(`❌ ${file} (${lawType || "UNKNOWN law_type"}): ${entries} entries, ${violationCount} violation(s)`);
+      const shown = schemaErrors.slice(0, 10);
       for (const err of shown) {
         // instancePath looks like "/178/section_ref" -> entry index 178
         const idxMatch = err.instancePath.match(/^\/(\d+)/);
         const idx = idxMatch ? idxMatch[1] : "?";
         console.error(`   - entry[${idx}] ${err.instancePath || "(root)"} ${err.message}`);
       }
-      if (validate.errors.length > shown.length) {
-        console.error(`   ... and ${validate.errors.length - shown.length} more`);
+      if (schemaErrors.length > shown.length) {
+        console.error(`   ... and ${schemaErrors.length - shown.length} more schema violation(s)`);
+      }
+      for (const { idx, found } of lawTypeMismatches.slice(0, 10)) {
+        console.error(`   - entry[${idx}] law_type is "${found}", expected "${lawType}" for this file`);
+      }
+      if (lawTypeMismatches.length > 10) {
+        console.error(`   ... and ${lawTypeMismatches.length - 10} more law_type mismatch(es)`);
       }
       summary.push({ file, ok: false, entries });
     }

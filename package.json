@@ -13,7 +13,8 @@
     "test": "node --test",
     "search": "node src/cli/search.js",
     "lint:corpus": "node scripts/lint_corpus_contract.js",
-    "verify:prd-gate": "node scripts/verify_prd_gate.js"
+    "verify:prd-gate": "node scripts/verify_prd_gate.js",
+    "regenerate:manifest": "node scripts/regenerate-manifest.js"
   },
   "keywords": [],
   "author": "",

@@ -2,15 +2,20 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://gitlab.goavisa.com/adlai/adlai-corpus-ingestion/data/corpus/schema.json",
   "title": "ADLAI corpus export contract (STORY-100)",
-  "description": "Contract for the JSON files this repo exports under output/<slug>.json. Validated by scripts/lint_corpus_contract.js (npm run lint:corpus). NOTE: `law_type` is intentionally NOT a per-entry field here — it is derived from the filename via the DOMAIN_MAP in scripts/lint_corpus_contract.js (the same 8 law_type -> slug(s) grouping already used by scripts/verify_prd_gate.js), because adding a redundant field to every one of the ~1000+ existing entries would duplicate information the filename already carries. If a per-entry law_type field is genuinely needed downstream (e.g. by ADLAI's importer), that's a decision to make with Alex, not something to bolt on silently here.",
+  "description": "Contract for the JSON files this repo exports under output/<slug>.json. Validated by scripts/lint_corpus_contract.js (npm run lint:corpus). `law_type` is now a real per-entry field (added 2026-09), stamped from the same 8 law_type -> slug(s) DOMAIN_MAP already used by scripts/verify_prd_gate.js -- previously derived from the filename only, but ADLAI's contract of record requires it present on every record, so it's now written into the data itself and required below.",
   "type": "array",
   "minItems": 1,
   "items": { "$ref": "#/$defs/corpusEntry" },
   "$defs": {
     "corpusEntry": {
       "type": "object",
-      "required": ["article_number", "language", "source_url", "chunk_hash"],
+      "required": ["article_number", "language", "source_url", "chunk_hash", "law_type"],
       "properties": {
+        "law_type": {
+          "description": "One of the 8 domain groupings (ZATCA, PDPL, SAMA, CMA, NCA, MISA, COMPANIES, LABOR) -- see DOMAIN_MAP in scripts/lint_corpus_contract.js.",
+          "type": "string",
+          "enum": ["ZATCA", "PDPL", "SAMA", "CMA", "NCA", "MISA", "COMPANIES", "LABOR"]
+        },
         "article_number": {
           "description": "Integer (or integer.5 for an inserted 'mکرر' article, e.g. CMA's 20.5) article number, or null for documents with no legal article numbering (e.g. NCA's ECC/CCC controls, which use section_ref instead).",
           "type": ["number", "null"]
@@ -38,9 +43,9 @@
           "pattern": "^[0-9a-f]{16}$"
         },
         "language": {
-          "description": "'ar' or 'en' for single-language entries; 'ar,en' for entries carrying both text_ar and text_en (misa, sama_banking_control_law).",
+          "description": "'ar' or 'en'. Combined 'ar,en' bilingual entries (misa, sama_banking_control_law) were split into two single-language records each in 2026-09, per ADLAI's request for one encoding across the export -- no longer a valid value here, so it's no longer accepted.",
           "type": "string",
-          "pattern": "^(ar|en)(,(ar|en))?$"
+          "enum": ["ar", "en"]
         },
         "article_type": { "type": "string" },
         "article_label": { "type": "string" },

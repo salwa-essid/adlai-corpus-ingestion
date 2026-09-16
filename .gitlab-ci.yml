@@ -32,6 +32,7 @@
 stages:
   - lint
   - test
+  - release
 
 variables:
   PLAYWRIGHT_BROWSERS_PATH: "$CI_PROJECT_DIR/.cache/ms-playwright"
@@ -87,3 +88,41 @@ integration-tests:
     # Non-superuser app role from migration 013 -- required for RLS to
     # actually apply (see the note above the job name).
     - DB_USER=adlai_app DB_PASSWORD=adlai123 npm test
+
+# STORY-100: on a tag push (e.g. `git tag v2026.09.16 && git push origin v2026.09.16`),
+# package output/*.json + a commit-stamped manifest.json (chunk_hash
+# stripped, per Alex's ask) and publish them as a GitLab generic package +
+# Release, so the `adlai` side has one URL to pull a known-good, traceable
+# snapshot of the corpus from instead of tracking `master` directly.
+build-release-artifact:
+  extends: .node_base
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - node scripts/build-release-manifest.js
+    - tar -czf corpus-export.tar.gz -C dist/output .
+    - |
+      curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        --upload-file corpus-export.tar.gz \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/corpus-export/${CI_COMMIT_TAG}/corpus-export.tar.gz"
+  artifacts:
+    paths:
+      - corpus-export.tar.gz
+
+publish-release:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - build-release-artifact
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Publishing release $CI_COMMIT_TAG"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: "Corpus export $CI_COMMIT_TAG (commit $CI_COMMIT_SHA)"
+    assets:
+      links:
+        - name: corpus-export.tar.gz
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/corpus-export/${CI_COMMIT_TAG}/corpus-export.tar.gz"
