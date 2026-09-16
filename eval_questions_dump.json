@@ -1,0 +1,712 @@
+[
+  {
+    "id": "60c985c3-b635-4e40-8578-cc7e7b8d8926",
+    "version": "v1",
+    "domain": "cma",
+    "question_ar": "المادة الثالثة الفصل الثاني هيئة السوق المالية أ - تنشأ في المملكة هيئة تسمى \"هيئة",
+    "question_en": null,
+    "expected_citations_raw": [
+      "fe011b00-3c78-45e3-951c-d8035d53ba3c"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "fe011b00-3c78-45e3-951c-d8035d53ba3c",
+        "resolved": {
+          "article_number": "2",
+          "source_slug": "cma",
+          "snippet": "المادة الثالثة الفصل الثاني هيئة السوق المالية أ - تنشأ في المملكة هيئة تسمى \"هي"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-03T12:57:32.303Z"
+  },
+  {
+    "id": "013cab82-1d78-4a6a-aecf-ec7fcd570a2c",
+    "version": "v1",
+    "domain": "cma",
+    "question_ar": "وضع السياسات والخطط وإجراء الدراسات وإصدار القواعد اللازمة لتحقيق أهداف الهيئة.-1 إصدار اللوائح التنفيذية الضرورية",
+    "question_en": null,
+    "expected_citations_raw": [
+      "ed2acaaa-2775-45fe-a6f6-9d3284e00f1b"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "ed2acaaa-2775-45fe-a6f6-9d3284e00f1b",
+        "resolved": {
+          "article_number": "4",
+          "source_slug": "cma",
+          "snippet": "المادة الخامسة أي سجلات، أو أوراق أو أي وثائق أخرى قد تراها الهيئة ذات صلة أو مه"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.517Z"
+  },
+  {
+    "id": "e019f307-6aad-4197-806f-637a778c94bc",
+    "version": "v1",
+    "domain": "cma",
+    "question_ar": "أ- تنفيذ القرارات التي يتخذها المجلس. أو بالاشتراك مع غيره على التقارير، والبيانات المحاسبية، والقوائم",
+    "question_en": null,
+    "expected_citations_raw": [
+      "286e114d-18b4-4717-8d21-ed8b7f8a940e"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "286e114d-18b4-4717-8d21-ed8b7f8a940e",
+        "resolved": {
+          "article_number": "9",
+          "source_slug": "cma",
+          "snippet": "المادة العاشرة 9 نظام السوق المالية الفصل الثاني هيئة السوق المالية المادة الحاد"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.536Z"
+  },
+  {
+    "id": "44179c48-37b6-4355-b409-d9d9507150b7",
+    "version": "v1",
+    "domain": "companies",
+    "question_ar": "التعريفات: 1- يقصـد بالكلـمات والعبـارات الآتيـة -أينـما وردت في هـذا النظـام- المعـاني الموضحـة أمام كل",
+    "question_en": null,
+    "expected_citations_raw": [
+      "b6006420-0c1d-4971-bf0d-f8d54ffd132a"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "b6006420-0c1d-4971-bf0d-f8d54ffd132a",
+        "resolved": {
+          "article_number": "1",
+          "source_slug": "companies",
+          "snippet": "المادة الأولى: التعريفات: 1- يقصـد بالكلـمات والعبـارات الآتيـة -أينـما وردت في "
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-03 after fixing empty-document bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T05:49:40.582Z"
+  },
+  {
+    "id": "4be1b842-1515-49d9-9577-253b58d2ef11",
+    "version": "v1",
+    "domain": "companies",
+    "question_ar": "وسيلة إيداع القوائم المالية عـلى مديـر الركـة أو رئيـس مجلـس إدارتهـا إيـداع القوائـم الماليـة للركة،",
+    "question_en": null,
+    "expected_citations_raw": [
+      "20e5a845-2db4-4c89-af6e-2c9fcc318b05"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "20e5a845-2db4-4c89-af6e-2c9fcc318b05",
+        "resolved": {
+          "article_number": "15",
+          "source_slug": "companies",
+          "snippet": "المادة الخامسة: وسيلة إيداع القوائم المالية عـلى مديـر الركـة أو رئيـس مجلـس إدا"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.464Z"
+  },
+  {
+    "id": "fe0b8b7d-1af0-40d4-9ff4-61ca8e52a8a0",
+    "version": "v1",
+    "domain": "companies",
+    "question_ar": "عدم استحقاق المكافأة والًالتزام بإعادتها ـب مـن أعضـاء مجلـس الإدارة بسـبب عـدم حضـوره ثاثـة اجتماعات",
+    "question_en": null,
+    "expected_citations_raw": [
+      "44208e80-e0a4-45eb-a3ff-8f70ae018b32"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "44208e80-e0a4-45eb-a3ff-8f70ae018b32",
+        "resolved": {
+          "article_number": "28",
+          "source_slug": "companies",
+          "snippet": "المادة العاشرة: عدم استحقاق المكافأة والًالتزام بإعادتها ـب مـن أعضـاء مجلـس الإ"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.476Z"
+  },
+  {
+    "id": "5153223c-308e-4409-aa57-1f0b54f57397",
+    "version": "v1",
+    "domain": "labor",
+    "question_ar": "من كل ا ل نظام هذ ا أ حك ام تطب يق من يست ث",
+    "question_en": null,
+    "expected_citations_raw": [
+      "8d21655f-2c65-407e-aaff-ab54b05d3707"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "8d21655f-2c65-407e-aaff-ab54b05d3707",
+        "resolved": {
+          "article_number": "1",
+          "source_slug": "labor",
+          "snippet": "المادة 1- :من كل ا ل نظام هذ ا أ حك ام تطب يق من يست ث نى أ- تضم ال التي المنشأة"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-03 after reverseText fix) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T05:38:32.438Z"
+  },
+  {
+    "id": "3fe63b33-f598-41f4-ac76-dc418d212272",
+    "version": "v1",
+    "domain": "labor",
+    "question_ar": ": اآلتية األحوال من أي في العمل عقد ينتهي .1 . كتابية العامل موافقة تكون",
+    "question_en": null,
+    "expected_citations_raw": [
+      "e008fa8f-f678-4a84-912a-8e9b99d9b320"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "e008fa8f-f678-4a84-912a-8e9b99d9b320",
+        "resolved": {
+          "article_number": "83",
+          "source_slug": "labor",
+          "snippet": "المادة 83 : : اآلتية األحوال من أي في العمل عقد ينتهي .1 . كتابية العامل موافقة "
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.330Z"
+  },
+  {
+    "id": "a3d01698-7c03-4bd3-b2da-dbf513e9e256",
+    "version": "v1",
+    "domain": "labor",
+    "question_ar": "المائة بعد والستون التاسعة المادة . وأوامره ر ب ا نها لسلطة ا لسفينة ظهر",
+    "question_en": null,
+    "expected_citations_raw": [
+      "3a25781b-45bc-4e4c-8e0c-fdef2a9495dc"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "3a25781b-45bc-4e4c-8e0c-fdef2a9495dc",
+        "resolved": {
+          "article_number": "6",
+          "source_slug": "labor",
+          "snippet": "المادة 06 في حيالها المبينة المعاني الباب هذا في وردت أينما (البحري العمل وعقد و"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.348Z"
+  },
+  {
+    "id": "097f4d23-5991-42f1-829c-22e467fbe6e9",
+    "version": "v1",
+    "domain": "misa",
+    "question_ar": "Purpose of the Law ł النظام يهدف Ğ Ņ الاستثماÌية البيئة تنافسية وتعÑيز تطوير إ",
+    "question_en": null,
+    "expected_citations_raw": [
+      "e933af61-aabc-4d8d-b5c3-52f4361517df"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "e933af61-aabc-4d8d-b5c3-52f4361517df",
+        "resolved": {
+          "article_number": "1",
+          "source_slug": "misa",
+          "snippet": "المادة الثانية Article 2: Purpose of the Law ł النظام يهدف Ğ Ņ الاستثماÌية البيئ"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (seeded 2026-08-04, first time misa had usable Arabic content) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T06:46:00.722Z"
+  },
+  {
+    "id": "c3c2bcb6-29af-40b7-a48b-e4cdc54bcb83",
+    "version": "v1",
+    "domain": "misa",
+    "question_ar": "Obligations of Investors Ņ والتشÎيعات الأنظمة بكافة بالتقيد المستثمر يلتزم û الاتفاقيات موجبب وبالتزاماتها المملكة،",
+    "question_en": null,
+    "expected_citations_raw": [
+      "507fcd15-6237-4a96-926b-a2d0ef3498ef"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "507fcd15-6237-4a96-926b-a2d0ef3498ef",
+        "resolved": {
+          "article_number": "3",
+          "source_slug": "misa",
+          "snippet": "المادة الخامسة Article 5: Obligations of Investors Ņ والتشÎيعات الأنظمة بكافة با"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.653Z"
+  },
+  {
+    "id": "5546a490-4b78-4783-b1d0-a090d7658b4e",
+    "version": "v1",
+    "domain": "misa",
+    "question_ar": "Investment Incentives ات منح يكون العلاقة، ذات الأنظمة به تقضي بما إخلال دون ماÌيةالاستث المحفز",
+    "question_en": null,
+    "expected_citations_raw": [
+      "cc58fb3c-c967-41a2-b3cc-c539518e0c11"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "cc58fb3c-c967-41a2-b3cc-c539518e0c11",
+        "resolved": {
+          "article_number": "4",
+          "source_slug": "misa",
+          "snippet": "المادة السادسة Article 6: Investment Incentives ات منح يكون العلاقة، ذات الأنظمة"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.667Z"
+  },
+  {
+    "id": "e4afc4e7-14ab-4cad-bb5e-b877d263fa1f",
+    "version": "v1",
+    "domain": "nca",
+    "question_ar": "الضوابط الأساسية للأمن السيبراني أبيضإشـــارة الــمــشــاركــة: الضوابط الأساسية للأمƸƸƸƸن السيبƸرانƸƸƸي Essential Cybersecurity Controls )ECC –",
+    "question_en": null,
+    "expected_citations_raw": [
+      "9f0f3eb1-05ee-4e59-881d-0a670ffcca53"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "9f0f3eb1-05ee-4e59-881d-0a670ffcca53",
+        "resolved": {
+          "article_number": "ecc_1",
+          "source_slug": "nca",
+          "snippet": "1\nغير مصنفتصنيف الوثيقة: \nالضوابط الأساسية للأمن السيبراني\n أبيضإشـــارة الــمــ"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-03T12:57:32.356Z"
+  },
+  {
+    "id": "5beb2477-9cd6-47db-8b6a-c1ad8497e40c",
+    "version": "v1",
+    "domain": "nca",
+    "question_ar": "الضوابط الأساسية للأمن السيبراني أبيضإشـــارة الــمــشــاركــة: ŞĨǙم ěاřŻرőĜŴ ěاĩťʼnŁ م\u001d ĉ Şĩťم أدناه بعض المصطلحات",
+    "question_en": null,
+    "expected_citations_raw": [
+      "d465e259-b519-48c1-8bfb-0c8203c90695"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "d465e259-b519-48c1-8bfb-0c8203c90695",
+        "resolved": {
+          "article_number": "ecc_28",
+          "source_slug": "nca",
+          "snippet": "30\nغير مصنفتصنيف الوثيقة: \nالضوابط الأساسية للأمن السيبراني\n أبيضإشـــارة الــمـ"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.605Z"
+  },
+  {
+    "id": "526e6bcc-d4e5-48d2-945e-b1cff30deeb7",
+    "version": "v1",
+    "domain": "nca",
+    "question_ar": "مــــتاح ضوابط الأمن السيبراني للحوسبة السحابية أبيض إشارة المشاركة: في الضوابط الأساسية للأمن السيبراني، يجب",
+    "question_en": null,
+    "expected_citations_raw": [
+      "63356803-d0c1-4b86-843a-9d99c8556943"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "63356803-d0c1-4b86-843a-9d99c8556943",
+        "resolved": {
+          "article_number": "ccc_24",
+          "source_slug": "nca",
+          "snippet": "23\nتصنيف الوثيقة: مــــتاح\nضوابط الأمن السيبراني للحوسبة السحابية\nأبيض\nإشارة الم"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.618Z"
+  },
+  {
+    "id": "80069ad6-7b1f-4065-b863-1d9b5fd0abb9",
+    "version": "v1",
+    "domain": "pdpl",
+    "question_ar": "1 ا ر د اصل موسر م ل ا ب يك ل م ل ا",
+    "question_en": null,
+    "expected_citations_raw": [
+      "4e86c2bc-cc2a-4b97-88b6-327b2ddd0752"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "4e86c2bc-cc2a-4b97-88b6-327b2ddd0752",
+        "resolved": {
+          "article_number": "1",
+          "source_slug": "pdpl",
+          "snippet": "1 \n \n \nا\n ر د اصل موسر م ل ا ب يك ل م ل ا\n مقر )م/١٩( خيراتو ٩/٢/١٤٤٣ ـه. \nلدعمل"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (seeded 2026-08-04, first time pdpl had a genuine Arabic source) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:07:08.600Z"
+  },
+  {
+    "id": "d555fc1b-557e-45c0-82b2-f023d0bbbbba",
+    "version": "v1",
+    "domain": "pdpl",
+    "question_ar": "ىلع ةهج مكحت ل ا نأ دمتعت ةسا يس ،ةيصوصخل ل نأو اهلعجت ةحا تم",
+    "question_en": null,
+    "expected_citations_raw": [
+      "b7732f4b-02d1-41cc-8233-e081c06393e6"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "b7732f4b-02d1-41cc-8233-e081c06393e6",
+        "resolved": {
+          "article_number": "7",
+          "source_slug": "pdpl",
+          "snippet": "ةداملا ةيناثلا ة رشع:\n \nىلع ةهج مكحت ل ا نأ دمتعت ةسا يس ،ةيصوصخل ل نأو اهلعجت ة"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.704Z"
+  },
+  {
+    "id": "516be3c5-82b5-4843-9c96-80820c051665",
+    "version": "v1",
+    "domain": "pdpl",
+    "question_ar": "أ- لاأ بت ر ت ي ىلع لقن ل ا و أ حاصفلإا ساسم نملأا",
+    "question_en": null,
+    "expected_citations_raw": [
+      "d0cdbed8-f465-497b-bbf5-e393220748c8"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "d0cdbed8-f465-497b-bbf5-e393220748c8",
+        "resolved": {
+          "article_number": "12",
+          "source_slug": "pdpl",
+          "snippet": "2- \nنوكت طورشل ا بجاول ا اهرفاوت دنع لقن تا ن ا ي ب ل ا ةيصخشل ا وأ حاصفلإا اهنع"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.718Z"
+  },
+  {
+    "id": "6f9a3576-2695-4676-a8e5-403bfd04b69f",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "التعر يفات يقصــد بالألفــاظ والعبــارات الآتيــة -أينمــا وردت فــي اللائحــة- المعانــي المبينــة أمــام كل منهــا،",
+    "question_en": null,
+    "expected_citations_raw": [
+      "39416547-d597-46a7-a92c-58bad1a886d1"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "39416547-d597-46a7-a92c-58bad1a886d1",
+        "resolved": null,
+        "note": "articles.id not found (deleted/superseded?)"
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-03T08:23:59.312Z"
+  },
+  {
+    "id": "af8a6945-d86a-447d-801b-ccc3df894a1f",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "1.5. نطاق هذا الدليل الإرشادي 2. توضيح المصطلحات الرئيسية المستخدمة في هذا الدليل 3. تطبيق",
+    "question_en": null,
+    "expected_citations_raw": [
+      "e0a393ab-4ff8-4679-93fa-44afc31f5cc9"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "e0a393ab-4ff8-4679-93fa-44afc31f5cc9",
+        "resolved": {
+          "article_number": "ar_1.5",
+          "source_slug": "zatca_guidelines",
+          "snippet": "1.5. نطاق هذا الدليل الإرشادي 2. توضيح المصطلحات الرئيسية المستخدمة في هذا الدلي"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-03 after fixing empty-document bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T05:57:14.960Z"
+  },
+  {
+    "id": "86312b61-fa79-4c6f-8cb8-2b82527af971",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "المممممممممممممممممجمممممممملممممممممس : مجلس التعاون لدول الخليج العربية. الاتمممممممممفممممممممماقممممممممميمممممممممة: الاتفاقية الموحدة لضريبة القيمة المضافة لدول المجلس",
+    "question_en": null,
+    "expected_citations_raw": [
+      "68b9f686-a4b7-48e3-a039-868b5d67dc32"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "68b9f686-a4b7-48e3-a039-868b5d67dc32",
+        "resolved": {
+          "article_number": "2",
+          "source_slug": "zatca_vat_agreement",
+          "snippet": "3 - 27 \n \nالتعاريف \nفي تطبيق أحكام ه الاتفاقية، دااااصق\nُ\nي بالكلمات والعبارات ا"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-03, picked a specific article instead of the generic chapter-title preamble) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T06:03:07.368Z"
+  },
+  {
+    "id": "115f9dd7-b1af-4951-ae22-5559ec5eabd5",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "الضريبية الإلكترونية الاعتماد هي العملية التي من خلالها تقوم الهيئة بالتحقق من أن الفواتير والإشعارات",
+    "question_en": null,
+    "expected_citations_raw": [
+      "d0c2fddf-98d1-444e-bff5-ac7ccf8afa58"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "d0c2fddf-98d1-444e-bff5-ac7ccf8afa58",
+        "resolved": {
+          "article_number": "ar_2.15",
+          "source_slug": "zatca_guidelines",
+          "snippet": "2.15. الاعتماد Clearance: الضريبية الإلكترونية الاعتماد هي العملية التي من خلاله"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.825Z"
+  },
+  {
+    "id": "d2c74e1e-ea1b-44ba-a740-98ba79d9e056",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "httpsXML المضمنة في 3-A / PDF مع ملفات )/sandbox.zatca.gov.sa 23 5.متطلبات مرحلة إصدار الفواتير الإلكترونية",
+    "question_en": null,
+    "expected_citations_raw": [
+      "8b2c9283-d510-45ab-ae4e-43c53fa67405"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "8b2c9283-d510-45ab-ae4e-43c53fa67405",
+        "resolved": {
+          "article_number": "ar_4.4",
+          "source_slug": "zatca_guidelines",
+          "snippet": "4.4. الإشعارات الدائنة والمدينة يجب تقديم كل نوع من أنواع الفواتير الإلكترونية و"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.836Z"
+  },
+  {
+    "id": "7c36f826-3993-4cc5-9066-36539cb5f737",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "أ. تاري وضع السلع بتصرف العميل فيما يتعلق بمعاملات توريد السلع بدون النقل أو الإرسال،",
+    "question_en": null,
+    "expected_citations_raw": [
+      "16a97738-700a-4a61-9d1c-580ec42c7fd8"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "16a97738-700a-4a61-9d1c-580ec42c7fd8",
+        "resolved": {
+          "article_number": "32",
+          "source_slug": "zatca_vat_agreement",
+          "snippet": "2. يكون تاري التوريد المنصوص علي في البند الأولى من ه \nالمادة كالاتي : \nأ. تاري "
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.869Z"
+  },
+  {
+    "id": "78bfa1d2-b4b6-4411-9006-efffe0b36e61",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "أ. اميقم في أ من الدول الأعضاء، و ب. يتجاوز أو من المتوقع أن يتجاوز",
+    "question_en": null,
+    "expected_citations_raw": [
+      "d63e0f99-ca5e-4ad9-97c0-9fd3e4ddcc69"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "d63e0f99-ca5e-4ad9-97c0-9fd3e4ddcc69",
+        "resolved": {
+          "article_number": "79",
+          "source_slug": "zatca_vat_agreement",
+          "snippet": "1. يكون الخاضع للضريبة \n \nامزلم بالتسجيل لغايات تطبيق ه الاتفاقية في حال كان: \nأ"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (batch 2, 2026-08-04, expanding coverage beyond 1 question/domain) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T07:10:39.880Z"
+  },
+  {
+    "id": "b37aa98f-5eed-4e61-b7ac-db9b1285606a",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "نطاق تطبيق القرار 1- يختص هذا القرار والملحقين (1( و )2) المرفقين به - والوثائق",
+    "question_en": null,
+    "expected_citations_raw": [
+      "8e4611d2-9ffd-495e-9f70-a43a430b2e4e"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "8e4611d2-9ffd-495e-9f70-a43a430b2e4e",
+        "resolved": {
+          "article_number": "ar_1",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "أولاً: نطاق تطبيق القرار 1- يختص هذا القرار والملحقين (1( و )2) المرفقين به - وا"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:09:18.792Z"
+  },
+  {
+    "id": "c2ee307a-7a55-4fa9-b15b-9cb0097e6c3b",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "YYYY-MM-DD مطلوب مشروط نعم 4 تحديد هوية المورد 4.1 ( ةرقفلل ا ً قفو مسلاا5/هـ)",
+    "question_en": null,
+    "expected_citations_raw": [
+      "0ce4955c-a5f7-4edc-a22f-3d8b95588c23"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "0ce4955c-a5f7-4edc-a22f-3d8b95588c23",
+        "resolved": {
+          "article_number": "ar_3.3",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "3.3 تاريخ التوريد. يجب أن يكون تاريخ التوريد خيرات نع ا ً فلتخم ناك اذإ ،هيلع صو"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:09:18.812Z"
+  },
+  {
+    "id": "2d15215d-553c-4d17-bf15-f00c403bd1c8",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "يتم تعبئته في حال استخدام مبلغ الدفعات المسبقة الاجمالي (غير شامل ضريبة القيمة المضافة) بحسب",
+    "question_en": null,
+    "expected_citations_raw": [
+      "c1a57e77-ea4f-4901-9b72-0c8a0d669671"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "c1a57e77-ea4f-4901-9b72-0c8a0d669671",
+        "resolved": {
+          "article_number": "ar_8.9",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "8.9 المبلغ مستحق للدفع : يتم تعبئته في حال استخدام مبلغ الدفعات المسبقة الاجمالي"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:09:18.825Z"
+  },
+  {
+    "id": "06743ca1-5d46-4445-87e9-491de0e07ea4",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "نطاق تطبيق القرار 1- يختص هذا القرار والملحقين (1( و )2) المرفقين به - والوثائق",
+    "question_en": null,
+    "expected_citations_raw": [
+      "8e4611d2-9ffd-495e-9f70-a43a430b2e4e"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "8e4611d2-9ffd-495e-9f70-a43a430b2e4e",
+        "resolved": {
+          "article_number": "ar_1",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "أولاً: نطاق تطبيق القرار 1- يختص هذا القرار والملحقين (1( و )2) المرفقين به - وا"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:11:19.054Z"
+  },
+  {
+    "id": "76ef04da-aeb5-4fed-9622-60d64b3666d2",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "YYYY-MM-DD مطلوب مشروط نعم 4 تحديد هوية المورد 4.1 ( ةرقفلل ا ً قفو مسلاا5/هـ)",
+    "question_en": null,
+    "expected_citations_raw": [
+      "0ce4955c-a5f7-4edc-a22f-3d8b95588c23"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "0ce4955c-a5f7-4edc-a22f-3d8b95588c23",
+        "resolved": {
+          "article_number": "ar_3.3",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "3.3 تاريخ التوريد. يجب أن يكون تاريخ التوريد خيرات نع ا ً فلتخم ناك اذإ ،هيلع صو"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:11:19.074Z"
+  },
+  {
+    "id": "a5f04482-2fa3-43cb-a52e-5272f02a3dde",
+    "version": "v1",
+    "domain": "zatca",
+    "question_ar": "يتم تعبئته في حال استخدام مبلغ الدفعات المسبقة الاجمالي (غير شامل ضريبة القيمة المضافة) بحسب",
+    "question_en": null,
+    "expected_citations_raw": [
+      "c1a57e77-ea4f-4901-9b72-0c8a0d669671"
+    ],
+    "expected_citations_resolved": [
+      {
+        "raw": "c1a57e77-ea4f-4901-9b72-0c8a0d669671",
+        "resolved": {
+          "article_number": "ar_8.9",
+          "source_slug": "zatca_implementation_resolution",
+          "snippet": "8.9 المبلغ مستحق للدفع : يتم تعبئته في حال استخدام مبلغ الدفعات المسبقة الاجمالي"
+        }
+      }
+    ],
+    "accepted_answer_ranges": [],
+    "attorney_rubric": "auto-generated content-based smoke-test (re-seeded 2026-08-04 after fixing article-splitting bug) — needs attorney review before being trusted for the cutover gate (spec section 7)",
+    "created_at": "2026-08-04T08:11:19.084Z"
+  }
+]

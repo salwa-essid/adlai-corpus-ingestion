@@ -1,5 +1,5 @@
 // STORY-100: regenerate output/manifest.json FROM the actual output/*.json
-// files instead of hand-editing it. Alex's complaint was exactly this --
+// files instead of hand-editing it. That was exactly the reported issue --
 // generated_at stuck on an old date and five files' counts stale (vat
 // 134->79, companies 99->281, nca 86->315, cma 66->68, labor 64->65)
 // because nothing recomputed the manifest after those rebuilds. Hand-typing
@@ -33,9 +33,10 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 function getSourceCommitSha() {
-    // Alex's ask: stamp the manifest with the commit it was generated from,
-    // so `ingestion_runs` on their side can attribute a release to an exact
-    // repo state. Reads live HEAD at generation time -- if this ever runs
+    // Per the release contract: stamp the manifest with the commit it was
+    // generated from, so downstream `ingestion_runs` can attribute a
+    // release to an exact repo state. Reads live HEAD at generation time --
+    // if this ever runs
     // outside a git checkout (or git isn't on PATH), don't fail the whole
     // manifest over it, just warn and leave it null.
     try {
