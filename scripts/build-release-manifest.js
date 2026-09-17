@@ -71,6 +71,12 @@ function main() {
 
     console.log(`dist/output/manifest.json stamped with commit ${commitSha} (tag ${tag}).`);
     console.log(`${files.length} domain file(s) copied into dist/output/ (chunk_hash stripped from ${strippedTotal} entries).`);
+
+    const evalPath = path.join(srcDir, "eval_questions.jsonl");
+    if (fs.existsSync(evalPath)) {
+        fs.copyFileSync(evalPath, path.join(destDir, "eval_questions.jsonl"));
+        console.log("eval_questions.jsonl copied into dist/output/.");
+    }
 }
 
 main();
